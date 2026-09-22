@@ -1,5 +1,5 @@
 {
-  "at": "2026-09-22T19:52:39.810Z",
+  "at": "2026-09-22T21:13:26.353Z",
   "note": "Synthetic prompts. Small smoke evaluation, not a general accuracy claim.",
   "results": [
     {
@@ -44,14 +44,14 @@
             "id": "pantry",
             "name": "Pantry",
             "mention": "Pantry",
-            "description": "Read the user’s actual food inventory, including quantities and items running low; plan meals or a restock list using what is already on hand. Use before shopping when the request depends on avoiding duplicates or filling pantry gaps.",
+            "description": "Read the user’s actual food inventory, including quantities and items running low. Use when the user is unsure what food is already at home, wants to avoid duplicate purchases, or needs a meal plan or restock based on current stock.",
             "probability": 0.01
           },
           {
             "id": "instacart",
             "name": "Instacart",
             "mention": "Instacart",
-            "description": "Search available groceries and create or update an Instacart shopping cart. Use when the user wants groceries placed in a cart, including a cart based on missing pantry staples. Do not treat adding to cart as placing an order.",
+            "description": "Search available groceries and create or update an Instacart shopping cart for the user to review before payment. Use when the user wants needed groceries queued or ready to check, including items missing from their pantry. Adding to a cart is not placing an order.",
             "probability": 0.01
           },
           {
@@ -65,9 +65,9 @@
         "original": "Explain why the sky is blue in one sentence.",
         "output": "Explain why the sky is blue in one sentence.",
         "model": "jev-1.13.0",
-        "elapsedMs": 498,
+        "elapsedMs": 526,
         "usage": {
-          "input_tokens": 2127,
+          "input_tokens": 2145,
           "output_tokens": 140
         },
         "policy": {
@@ -77,7 +77,7 @@
         },
         "reason": "No available tool needed",
         "live": true,
-        "fingerprint": "dbbbaadb83e02948e662f8ca9cfda4232a4d788332bd25b73dc8be208387eafc"
+        "fingerprint": "1df0d456ff6d47e5b5aa731bcf69711afbee965947e2d5d2794c1df1e8d1a9dd"
       }
     },
     {
@@ -108,13 +108,6 @@
             "probability": 0.99
           },
           {
-            "id": "personal-vault",
-            "name": "Personal Vault",
-            "mention": "Personal Vault",
-            "description": "Read or update the user’s personal Markdown notes, ongoing plans and adopted decisions in their vault.",
-            "probability": 0.05
-          },
-          {
             "id": "gmail",
             "name": "Gmail",
             "mention": "Gmail",
@@ -122,17 +115,31 @@
             "probability": 0.04
           },
           {
+            "id": "personal-vault",
+            "name": "Personal Vault",
+            "mention": "Personal Vault",
+            "description": "Read or update the user’s personal Markdown notes, ongoing plans and adopted decisions in their vault.",
+            "probability": 0.04
+          },
+          {
             "id": "google-calendar",
             "name": "Google Calendar",
             "mention": "Google Calendar",
             "description": "Read actual calendar events and availability, create or change calendar events. Not general scheduling advice.",
-            "probability": 0.03
+            "probability": 0.02
           },
           {
             "id": "pantry",
             "name": "Pantry",
             "mention": "Pantry",
-            "description": "Read the user’s actual food inventory, including quantities and items running low; plan meals or a restock list using what is already on hand. Use before shopping when the request depends on avoiding duplicates or filling pantry gaps.",
+            "description": "Read the user’s actual food inventory, including quantities and items running low. Use when the user is unsure what food is already at home, wants to avoid duplicate purchases, or needs a meal plan or restock based on current stock.",
+            "probability": 0.02
+          },
+          {
+            "id": "instacart",
+            "name": "Instacart",
+            "mention": "Instacart",
+            "description": "Search available groceries and create or update an Instacart shopping cart for the user to review before payment. Use when the user wants needed groceries queued or ready to check, including items missing from their pantry. Adding to a cart is not placing an order.",
             "probability": 0.02
           },
           {
@@ -141,21 +148,14 @@
             "mention": "Sites",
             "description": "Build, edit and host a complete website or interactive web app. Not explaining HTML or answering coding questions.",
             "probability": 0.02
-          },
-          {
-            "id": "instacart",
-            "name": "Instacart",
-            "mention": "Instacart",
-            "description": "Search available groceries and create or update an Instacart shopping cart. Use when the user wants groceries placed in a cart, including a cart based on missing pantry staples. Do not treat adding to cart as placing an order.",
-            "probability": 0.01
           }
         ],
         "original": "Find the latest project brief in my Google Drive and summarize it.",
         "output": "@Google Drive\n\nFind the latest project brief in my Google Drive and summarize it.",
         "model": "jev-1.13.0",
-        "elapsedMs": 276,
+        "elapsedMs": 168,
         "usage": {
-          "input_tokens": 2129,
+          "input_tokens": 2147,
           "output_tokens": 140
         },
         "policy": {
@@ -165,7 +165,7 @@
         },
         "reason": "Available tools matched",
         "live": true,
-        "fingerprint": "de690685f61c6c7fab7199ac85ebfef0e435b683b51d014cab35c6855453561f"
+        "fingerprint": "4df28a302dc480a45b825a870ee820d42a69b15f5c6ecdd57e0db0dd7714340f"
       }
     },
     {
@@ -228,30 +228,30 @@
             "id": "pantry",
             "name": "Pantry",
             "mention": "Pantry",
-            "description": "Read the user’s actual food inventory, including quantities and items running low; plan meals or a restock list using what is already on hand. Use before shopping when the request depends on avoiding duplicates or filling pantry gaps.",
-            "probability": 0.01
-          },
-          {
-            "id": "instacart",
-            "name": "Instacart",
-            "mention": "Instacart",
-            "description": "Search available groceries and create or update an Instacart shopping cart. Use when the user wants groceries placed in a cart, including a cart based on missing pantry staples. Do not treat adding to cart as placing an order.",
-            "probability": 0.01
+            "description": "Read the user’s actual food inventory, including quantities and items running low. Use when the user is unsure what food is already at home, wants to avoid duplicate purchases, or needs a meal plan or restock based on current stock.",
+            "probability": 0.02
           },
           {
             "id": "sites",
             "name": "Sites",
             "mention": "Sites",
             "description": "Build, edit and host a complete website or interactive web app. Not explaining HTML or answering coding questions.",
+            "probability": 0.02
+          },
+          {
+            "id": "instacart",
+            "name": "Instacart",
+            "mention": "Instacart",
+            "description": "Search available groceries and create or update an Instacart shopping cart for the user to review before payment. Use when the user wants needed groceries queued or ready to check, including items missing from their pantry. Adding to a cart is not placing an order.",
             "probability": 0.01
           }
         ],
         "original": "Find the meeting time in my latest email and check whether my calendar is free then.",
         "output": "@Gmail @Google Calendar\n\nFind the meeting time in my latest email and check whether my calendar is free then.",
         "model": "jev-1.13.0",
-        "elapsedMs": 287,
+        "elapsedMs": 205,
         "usage": {
-          "input_tokens": 2133,
+          "input_tokens": 2151,
           "output_tokens": 140
         },
         "policy": {
@@ -261,7 +261,7 @@
         },
         "reason": "Available tools matched",
         "live": true,
-        "fingerprint": "184787024d2d599dd122c00e1065cae2a3ac5ae4aa61b87a87298037876419e6"
+        "fingerprint": "1b9ee9479d4fcf14591ac64ad575d416240bc6ddb6534b663e5349d840807ad5"
       }
     },
     {
@@ -279,7 +279,7 @@
             "name": "Gmail",
             "mention": "Gmail",
             "description": "Find and read the user’s email and threads, search inbox and draft email. Not general writing or explaining email.",
-            "probability": 0.03
+            "probability": 0.02
           },
           {
             "id": "google-drive",
@@ -303,33 +303,33 @@
             "probability": 0.02
           },
           {
-            "id": "sites",
-            "name": "Sites",
-            "mention": "Sites",
-            "description": "Build, edit and host a complete website or interactive web app. Not explaining HTML or answering coding questions.",
-            "probability": 0.02
-          },
-          {
             "id": "pantry",
             "name": "Pantry",
             "mention": "Pantry",
-            "description": "Read the user’s actual food inventory, including quantities and items running low; plan meals or a restock list using what is already on hand. Use before shopping when the request depends on avoiding duplicates or filling pantry gaps.",
+            "description": "Read the user’s actual food inventory, including quantities and items running low. Use when the user is unsure what food is already at home, wants to avoid duplicate purchases, or needs a meal plan or restock based on current stock.",
             "probability": 0.01
           },
           {
             "id": "instacart",
             "name": "Instacart",
             "mention": "Instacart",
-            "description": "Search available groceries and create or update an Instacart shopping cart. Use when the user wants groceries placed in a cart, including a cart based on missing pantry staples. Do not treat adding to cart as placing an order.",
+            "description": "Search available groceries and create or update an Instacart shopping cart for the user to review before payment. Use when the user wants needed groceries queued or ready to check, including items missing from their pantry. Adding to a cart is not placing an order.",
+            "probability": 0.01
+          },
+          {
+            "id": "sites",
+            "name": "Sites",
+            "mention": "Sites",
+            "description": "Build, edit and host a complete website or interactive web app. Not explaining HTML or answering coding questions.",
             "probability": 0.01
           }
         ],
         "original": "Explain what Gmail is. Do not access my account.",
         "output": "Explain what Gmail is. Do not access my account.",
         "model": "jev-1.13.0",
-        "elapsedMs": 339,
+        "elapsedMs": 187,
         "usage": {
-          "input_tokens": 2128,
+          "input_tokens": 2146,
           "output_tokens": 140
         },
         "policy": {
@@ -339,7 +339,7 @@
         },
         "reason": "No available tool needed",
         "live": true,
-        "fingerprint": "340871e9bce5b15cca276bcc98f6dbe44d30451af239acb223622403cd7460b7"
+        "fingerprint": "160cc532d4c7adc40443705e7a1d0e822bf61db779a8161192dd9a3d8213aa9a"
       }
     },
     {
@@ -367,6 +367,13 @@
             "probability": 0.03
           },
           {
+            "id": "personal-vault",
+            "name": "Personal Vault",
+            "mention": "Personal Vault",
+            "description": "Read or update the user’s personal Markdown notes, ongoing plans and adopted decisions in their vault.",
+            "probability": 0.03
+          },
+          {
             "id": "google-drive",
             "name": "Google Drive",
             "mention": "Google Drive",
@@ -377,21 +384,14 @@
             "id": "pantry",
             "name": "Pantry",
             "mention": "Pantry",
-            "description": "Read the user’s actual food inventory, including quantities and items running low; plan meals or a restock list using what is already on hand. Use before shopping when the request depends on avoiding duplicates or filling pantry gaps.",
+            "description": "Read the user’s actual food inventory, including quantities and items running low. Use when the user is unsure what food is already at home, wants to avoid duplicate purchases, or needs a meal plan or restock based on current stock.",
             "probability": 0.02
           },
           {
             "id": "instacart",
             "name": "Instacart",
             "mention": "Instacart",
-            "description": "Search available groceries and create or update an Instacart shopping cart. Use when the user wants groceries placed in a cart, including a cart based on missing pantry staples. Do not treat adding to cart as placing an order.",
-            "probability": 0.02
-          },
-          {
-            "id": "personal-vault",
-            "name": "Personal Vault",
-            "mention": "Personal Vault",
-            "description": "Read or update the user’s personal Markdown notes, ongoing plans and adopted decisions in their vault.",
+            "description": "Search available groceries and create or update an Instacart shopping cart for the user to review before payment. Use when the user wants needed groceries queued or ready to check, including items missing from their pantry. Adding to a cart is not placing an order.",
             "probability": 0.02
           },
           {
@@ -405,9 +405,9 @@
         "original": "Summarize this email: The picnic is Saturday at noon. Bring sandwiches.",
         "output": "Summarize this email: The picnic is Saturday at noon. Bring sandwiches.",
         "model": "jev-1.13.0",
-        "elapsedMs": 271,
+        "elapsedMs": 161,
         "usage": {
-          "input_tokens": 2132,
+          "input_tokens": 2150,
           "output_tokens": 140
         },
         "policy": {
@@ -417,7 +417,7 @@
         },
         "reason": "No available tool needed",
         "live": true,
-        "fingerprint": "14756a0be035ddc958a951b387fdfe407e112bb6a41d75d4cececc378c274172"
+        "fingerprint": "62054cea03b23e7af865c85f4e13c93105d5406208f93dcfffb8f40f1bd322e4"
       }
     },
     {
@@ -428,7 +428,7 @@
       "passed": true,
       "result": {
         "status": "review",
-        "needsTools": 0.28,
+        "needsTools": 0.29,
         "selected": [],
         "scores": [
           {
@@ -436,20 +436,13 @@
             "name": "Personal Vault",
             "mention": "Personal Vault",
             "description": "Read or update the user’s personal Markdown notes, ongoing plans and adopted decisions in their vault.",
-            "probability": 0.05
+            "probability": 0.06
           },
           {
             "id": "google-drive",
             "name": "Google Drive",
             "mention": "Google Drive",
             "description": "Find, read, create and edit connected Google Drive files, Google Docs, Sheets and Slides.",
-            "probability": 0.04
-          },
-          {
-            "id": "google-calendar",
-            "name": "Google Calendar",
-            "mention": "Google Calendar",
-            "description": "Read actual calendar events and availability, create or change calendar events. Not general scheduling advice.",
             "probability": 0.04
           },
           {
@@ -460,10 +453,17 @@
             "probability": 0.03
           },
           {
+            "id": "google-calendar",
+            "name": "Google Calendar",
+            "mention": "Google Calendar",
+            "description": "Read actual calendar events and availability, create or change calendar events. Not general scheduling advice.",
+            "probability": 0.03
+          },
+          {
             "id": "pantry",
             "name": "Pantry",
             "mention": "Pantry",
-            "description": "Read the user’s actual food inventory, including quantities and items running low; plan meals or a restock list using what is already on hand. Use before shopping when the request depends on avoiding duplicates or filling pantry gaps.",
+            "description": "Read the user’s actual food inventory, including quantities and items running low. Use when the user is unsure what food is already at home, wants to avoid duplicate purchases, or needs a meal plan or restock based on current stock.",
             "probability": 0.02
           },
           {
@@ -477,16 +477,16 @@
             "id": "instacart",
             "name": "Instacart",
             "mention": "Instacart",
-            "description": "Search available groceries and create or update an Instacart shopping cart. Use when the user wants groceries placed in a cart, including a cart based on missing pantry staples. Do not treat adding to cart as placing an order.",
+            "description": "Search available groceries and create or update an Instacart shopping cart for the user to review before payment. Use when the user wants needed groceries queued or ready to check, including items missing from their pantry. Adding to a cart is not placing an order.",
             "probability": 0.01
           }
         ],
         "original": "Summarize my Slack messages from today.",
         "output": "Summarize my Slack messages from today.",
         "model": "jev-1.13.0",
-        "elapsedMs": 323,
+        "elapsedMs": 175,
         "usage": {
-          "input_tokens": 2125,
+          "input_tokens": 2143,
           "output_tokens": 140
         },
         "policy": {
@@ -496,7 +496,7 @@
         },
         "reason": "Uncertain — review before sending",
         "live": true,
-        "fingerprint": "eeb9e0896558c92033d5ed94b8074ba56640db5ba16c2e9df2e9cf723bdd2e9f"
+        "fingerprint": "b4ffaa36206495fbf7df24e27f865d556052a3c7ed15887599a113a5c53eb469"
       }
     },
     {
@@ -528,6 +528,13 @@
             "probability": 0.96
           },
           {
+            "id": "personal-vault",
+            "name": "Personal Vault",
+            "mention": "Personal Vault",
+            "description": "Read or update the user’s personal Markdown notes, ongoing plans and adopted decisions in their vault.",
+            "probability": 0.06
+          },
+          {
             "id": "gmail",
             "name": "Gmail",
             "mention": "Gmail",
@@ -535,24 +542,24 @@
             "probability": 0.05
           },
           {
-            "id": "personal-vault",
-            "name": "Personal Vault",
-            "mention": "Personal Vault",
-            "description": "Read or update the user’s personal Markdown notes, ongoing plans and adopted decisions in their vault.",
-            "probability": 0.05
-          },
-          {
             "id": "google-calendar",
             "name": "Google Calendar",
             "mention": "Google Calendar",
             "description": "Read actual calendar events and availability, create or change calendar events. Not general scheduling advice.",
-            "probability": 0.03
+            "probability": 0.02
           },
           {
             "id": "pantry",
             "name": "Pantry",
             "mention": "Pantry",
-            "description": "Read the user’s actual food inventory, including quantities and items running low; plan meals or a restock list using what is already on hand. Use before shopping when the request depends on avoiding duplicates or filling pantry gaps.",
+            "description": "Read the user’s actual food inventory, including quantities and items running low. Use when the user is unsure what food is already at home, wants to avoid duplicate purchases, or needs a meal plan or restock based on current stock.",
+            "probability": 0.02
+          },
+          {
+            "id": "instacart",
+            "name": "Instacart",
+            "mention": "Instacart",
+            "description": "Search available groceries and create or update an Instacart shopping cart for the user to review before payment. Use when the user wants needed groceries queued or ready to check, including items missing from their pantry. Adding to a cart is not placing an order.",
             "probability": 0.02
           },
           {
@@ -561,21 +568,14 @@
             "mention": "Sites",
             "description": "Build, edit and host a complete website or interactive web app. Not explaining HTML or answering coding questions.",
             "probability": 0.02
-          },
-          {
-            "id": "instacart",
-            "name": "Instacart",
-            "mention": "Instacart",
-            "description": "Search available groceries and create or update an Instacart shopping cart. Use when the user wants groceries placed in a cart, including a cart based on missing pantry staples. Do not treat adding to cart as placing an order.",
-            "probability": 0.01
           }
         ],
         "original": "Find that document for me.",
         "output": "@Google Drive\n\nFind that document for me.",
         "model": "jev-1.13.0",
-        "elapsedMs": 276,
+        "elapsedMs": 200,
         "usage": {
-          "input_tokens": 2133,
+          "input_tokens": 2151,
           "output_tokens": 140
         },
         "policy": {
@@ -585,7 +585,7 @@
         },
         "reason": "Available tools matched",
         "live": true,
-        "fingerprint": "0a512a2edd8cb1390bf89e65b37f4b8fb37919e6309a99a63ed42cc1805b5c23"
+        "fingerprint": "4981cec97b2998f28ced2a7d0eccb70f9d26381fe9f581af2b2a9b61b704d80c"
       }
     },
     {
@@ -597,13 +597,13 @@
       "passed": true,
       "result": {
         "status": "routed",
-        "needsTools": 0.95,
+        "needsTools": 0.96,
         "selected": [
           {
             "id": "pantry",
             "name": "Pantry",
             "mention": "Pantry",
-            "description": "Read the user’s actual food inventory, including quantities and items running low; plan meals or a restock list using what is already on hand. Use before shopping when the request depends on avoiding duplicates or filling pantry gaps.",
+            "description": "Read the user’s actual food inventory, including quantities and items running low. Use when the user is unsure what food is already at home, wants to avoid duplicate purchases, or needs a meal plan or restock based on current stock.",
             "probability": 0.97
           }
         ],
@@ -612,7 +612,7 @@
             "id": "pantry",
             "name": "Pantry",
             "mention": "Pantry",
-            "description": "Read the user’s actual food inventory, including quantities and items running low; plan meals or a restock list using what is already on hand. Use before shopping when the request depends on avoiding duplicates or filling pantry gaps.",
+            "description": "Read the user’s actual food inventory, including quantities and items running low. Use when the user is unsure what food is already at home, wants to avoid duplicate purchases, or needs a meal plan or restock based on current stock.",
             "probability": 0.97
           },
           {
@@ -630,18 +630,18 @@
             "probability": 0.05
           },
           {
+            "id": "instacart",
+            "name": "Instacart",
+            "mention": "Instacart",
+            "description": "Search available groceries and create or update an Instacart shopping cart for the user to review before payment. Use when the user wants needed groceries queued or ready to check, including items missing from their pantry. Adding to a cart is not placing an order.",
+            "probability": 0.04
+          },
+          {
             "id": "gmail",
             "name": "Gmail",
             "mention": "Gmail",
             "description": "Find and read the user’s email and threads, search inbox and draft email. Not general writing or explaining email.",
-            "probability": 0.04
-          },
-          {
-            "id": "instacart",
-            "name": "Instacart",
-            "mention": "Instacart",
-            "description": "Search available groceries and create or update an Instacart shopping cart. Use when the user wants groceries placed in a cart, including a cart based on missing pantry staples. Do not treat adding to cart as placing an order.",
-            "probability": 0.04
+            "probability": 0.03
           },
           {
             "id": "google-calendar",
@@ -661,9 +661,9 @@
         "original": "What ingredients do I have in my pantry?",
         "output": "@Pantry\n\nWhat ingredients do I have in my pantry?",
         "model": "jev-1.13.0",
-        "elapsedMs": 222,
+        "elapsedMs": 229,
         "usage": {
-          "input_tokens": 2125,
+          "input_tokens": 2143,
           "output_tokens": 140
         },
         "policy": {
@@ -673,12 +673,12 @@
         },
         "reason": "Available tools matched",
         "live": true,
-        "fingerprint": "54de79852412152d70a15edd5ce6019e2932fc5040eb20a515bc1164e38a4666"
+        "fingerprint": "e2bae2e58ef2e5d517bda7573a1746afa2e51480182f2d27aeb0a8c1f95d75ad"
       }
     },
     {
-      "name": "messy pantry restock and cart",
-      "prompt": "Okay, this is scattered: I need breakfasts for next week, probably egg sandwiches and coffee, but do not make me buy things already in the kitchen. I also thought we were out of rice and canned tomatoes, though I may be wrong. Check the recorded pantry first, then put only the missing breakfast basics plus any genuinely low staples in a grocery cart for me to review. Do not check out.",
+      "name": "indirect breakfast restock",
+      "prompt": "ugh 6am shifts all week. egg sandwiches would save me but do we even have eggs? bread? i swear i saw coffee somewhere and last time i came home with rice we already had. can you sort the morning situation out and tee up whatever is actually missing so i can check it before paying? pls do not place an order.",
       "expected": [
         "pantry",
         "instacart"
@@ -692,15 +692,15 @@
             "id": "pantry",
             "name": "Pantry",
             "mention": "Pantry",
-            "description": "Read the user’s actual food inventory, including quantities and items running low; plan meals or a restock list using what is already on hand. Use before shopping when the request depends on avoiding duplicates or filling pantry gaps.",
-            "probability": 0.98
+            "description": "Read the user’s actual food inventory, including quantities and items running low. Use when the user is unsure what food is already at home, wants to avoid duplicate purchases, or needs a meal plan or restock based on current stock.",
+            "probability": 0.95
           },
           {
             "id": "instacart",
             "name": "Instacart",
             "mention": "Instacart",
-            "description": "Search available groceries and create or update an Instacart shopping cart. Use when the user wants groceries placed in a cart, including a cart based on missing pantry staples. Do not treat adding to cart as placing an order.",
-            "probability": 0.96
+            "description": "Search available groceries and create or update an Instacart shopping cart for the user to review before payment. Use when the user wants needed groceries queued or ready to check, including items missing from their pantry. Adding to a cart is not placing an order.",
+            "probability": 0.94
           }
         ],
         "scores": [
@@ -708,15 +708,15 @@
             "id": "pantry",
             "name": "Pantry",
             "mention": "Pantry",
-            "description": "Read the user’s actual food inventory, including quantities and items running low; plan meals or a restock list using what is already on hand. Use before shopping when the request depends on avoiding duplicates or filling pantry gaps.",
-            "probability": 0.98
+            "description": "Read the user’s actual food inventory, including quantities and items running low. Use when the user is unsure what food is already at home, wants to avoid duplicate purchases, or needs a meal plan or restock based on current stock.",
+            "probability": 0.95
           },
           {
             "id": "instacart",
             "name": "Instacart",
             "mention": "Instacart",
-            "description": "Search available groceries and create or update an Instacart shopping cart. Use when the user wants groceries placed in a cart, including a cart based on missing pantry staples. Do not treat adding to cart as placing an order.",
-            "probability": 0.96
+            "description": "Search available groceries and create or update an Instacart shopping cart for the user to review before payment. Use when the user wants needed groceries queued or ready to check, including items missing from their pantry. Adding to a cart is not placing an order.",
+            "probability": 0.94
           },
           {
             "id": "personal-vault",
@@ -726,25 +726,25 @@
             "probability": 0.1
           },
           {
-            "id": "google-calendar",
-            "name": "Google Calendar",
-            "mention": "Google Calendar",
-            "description": "Read actual calendar events and availability, create or change calendar events. Not general scheduling advice.",
-            "probability": 0.07
+            "id": "gmail",
+            "name": "Gmail",
+            "mention": "Gmail",
+            "description": "Find and read the user’s email and threads, search inbox and draft email. Not general writing or explaining email.",
+            "probability": 0.08
           },
           {
             "id": "google-drive",
             "name": "Google Drive",
             "mention": "Google Drive",
             "description": "Find, read, create and edit connected Google Drive files, Google Docs, Sheets and Slides.",
-            "probability": 0.05
+            "probability": 0.06
           },
           {
-            "id": "gmail",
-            "name": "Gmail",
-            "mention": "Gmail",
-            "description": "Find and read the user’s email and threads, search inbox and draft email. Not general writing or explaining email.",
-            "probability": 0.03
+            "id": "google-calendar",
+            "name": "Google Calendar",
+            "mention": "Google Calendar",
+            "description": "Read actual calendar events and availability, create or change calendar events. Not general scheduling advice.",
+            "probability": 0.06
           },
           {
             "id": "sites",
@@ -754,12 +754,12 @@
             "probability": 0.02
           }
         ],
-        "original": "Okay, this is scattered: I need breakfasts for next week, probably egg sandwiches and coffee, but do not make me buy things already in the kitchen. I also thought we were out of rice and canned tomatoes, though I may be wrong. Check the recorded pantry first, then put only the missing breakfast basics plus any genuinely low staples in a grocery cart for me to review. Do not check out.",
-        "output": "@Pantry @Instacart\n\nOkay, this is scattered: I need breakfasts for next week, probably egg sandwiches and coffee, but do not make me buy things already in the kitchen. I also thought we were out of rice and canned tomatoes, though I may be wrong. Check the recorded pantry first, then put only the missing breakfast basics plus any genuinely low staples in a grocery cart for me to review. Do not check out.",
+        "original": "ugh 6am shifts all week. egg sandwiches would save me but do we even have eggs? bread? i swear i saw coffee somewhere and last time i came home with rice we already had. can you sort the morning situation out and tee up whatever is actually missing so i can check it before paying? pls do not place an order.",
+        "output": "@Pantry @Instacart\n\nugh 6am shifts all week. egg sandwiches would save me but do we even have eggs? bread? i swear i saw coffee somewhere and last time i came home with rice we already had. can you sort the morning situation out and tee up whatever is actually missing so i can check it before paying? pls do not place an order.",
         "model": "jev-1.13.0",
-        "elapsedMs": 233,
+        "elapsedMs": 209,
         "usage": {
-          "input_tokens": 2200,
+          "input_tokens": 2203,
           "output_tokens": 140
         },
         "policy": {
@@ -769,7 +769,7 @@
         },
         "reason": "Available tools matched",
         "live": true,
-        "fingerprint": "dbc8e2f6ebf922c1b10728ecd28f9b8c8db1a3315be00925c16888f9ac62c0dd"
+        "fingerprint": "e6f8b0ca94e5ec72118719cdb9fa1285583a97195863345815f77b7bd6e191a6"
       }
     },
     {
@@ -787,7 +787,7 @@
             "id": "instacart",
             "name": "Instacart",
             "mention": "Instacart",
-            "description": "Search available groceries and create or update an Instacart shopping cart. Use when the user wants groceries placed in a cart, including a cart based on missing pantry staples. Do not treat adding to cart as placing an order.",
+            "description": "Search available groceries and create or update an Instacart shopping cart for the user to review before payment. Use when the user wants needed groceries queued or ready to check, including items missing from their pantry. Adding to a cart is not placing an order.",
             "probability": 0.98
           }
         ],
@@ -796,29 +796,15 @@
             "id": "instacart",
             "name": "Instacart",
             "mention": "Instacart",
-            "description": "Search available groceries and create or update an Instacart shopping cart. Use when the user wants groceries placed in a cart, including a cart based on missing pantry staples. Do not treat adding to cart as placing an order.",
+            "description": "Search available groceries and create or update an Instacart shopping cart for the user to review before payment. Use when the user wants needed groceries queued or ready to check, including items missing from their pantry. Adding to a cart is not placing an order.",
             "probability": 0.98
           },
           {
             "id": "pantry",
             "name": "Pantry",
             "mention": "Pantry",
-            "description": "Read the user’s actual food inventory, including quantities and items running low; plan meals or a restock list using what is already on hand. Use before shopping when the request depends on avoiding duplicates or filling pantry gaps.",
-            "probability": 0.08
-          },
-          {
-            "id": "personal-vault",
-            "name": "Personal Vault",
-            "mention": "Personal Vault",
-            "description": "Read or update the user’s personal Markdown notes, ongoing plans and adopted decisions in their vault.",
-            "probability": 0.04
-          },
-          {
-            "id": "gmail",
-            "name": "Gmail",
-            "mention": "Gmail",
-            "description": "Find and read the user’s email and threads, search inbox and draft email. Not general writing or explaining email.",
-            "probability": 0.03
+            "description": "Read the user’s actual food inventory, including quantities and items running low. Use when the user is unsure what food is already at home, wants to avoid duplicate purchases, or needs a meal plan or restock based on current stock.",
+            "probability": 0.09
           },
           {
             "id": "google-drive",
@@ -826,6 +812,20 @@
             "mention": "Google Drive",
             "description": "Find, read, create and edit connected Google Drive files, Google Docs, Sheets and Slides.",
             "probability": 0.03
+          },
+          {
+            "id": "personal-vault",
+            "name": "Personal Vault",
+            "mention": "Personal Vault",
+            "description": "Read or update the user’s personal Markdown notes, ongoing plans and adopted decisions in their vault.",
+            "probability": 0.03
+          },
+          {
+            "id": "gmail",
+            "name": "Gmail",
+            "mention": "Gmail",
+            "description": "Find and read the user’s email and threads, search inbox and draft email. Not general writing or explaining email.",
+            "probability": 0.02
           },
           {
             "id": "google-calendar",
@@ -845,9 +845,9 @@
         "original": "Put two cartons of oat milk in an Instacart cart for me to review.",
         "output": "@Instacart\n\nPut two cartons of oat milk in an Instacart cart for me to review.",
         "model": "jev-1.13.0",
-        "elapsedMs": 330,
+        "elapsedMs": 187,
         "usage": {
-          "input_tokens": 2134,
+          "input_tokens": 2152,
           "output_tokens": 140
         },
         "policy": {
@@ -857,7 +857,7 @@
         },
         "reason": "Available tools matched",
         "live": true,
-        "fingerprint": "57c536b72168f7ca52b278e5a02ddaa65db01349cbb8ce5f9a1056588df83a51"
+        "fingerprint": "f9f04391208a9a3ab21b817928b19edda750c31cc3af71a84f13a15c47a5b754"
       }
     }
   ]

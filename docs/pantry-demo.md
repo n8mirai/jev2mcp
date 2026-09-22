@@ -14,4 +14,8 @@ The original [demo post](https://x.com/n8mirai/status/2102479357189214645) shows
 4. Show ChatGPT checking the recorded food inventory, then using Instacart to queue only missing breakfast items for review. Stop before checkout.
 5. Keep the video to the browser interaction and its overlay, with clean cuts and no presentation slides.
 
-The previous [routing smoke test](../artifacts/live-evaluation.json) used an explicit instruction to check the recorded pantry and build a grocery cart. Its result cannot be used as proof that Jev understands this indirect prompt. The new case is in `scripts/evaluate.mjs` and needs a fresh live TypeSafe run.
+## Live routing result
+
+On September 22, 2026, Jev returned 0.97 for needing tools, 0.95 for Pantry, and 0.94 for Instacart in 209 ms. It selected both for this indirect prompt. All ten cases in the [live smoke evaluation](../artifacts/live-evaluation.json) passed.
+
+This verifies Jev's routing decision. Native ChatGPT attachment, the inventory lookup, the cart action, and the live screen recording are still separate checks.

@@ -40,7 +40,7 @@ For an indirect routing test, try:
 
 > ugh 6am shifts all week. egg sandwiches would save me but do we even have eggs? bread? i swear i saw coffee somewhere and last time i came home with rice we already had. can you sort the morning situation out and tee up whatever is actually missing so i can check it before paying? pls do not place an order.
 
-The expected tool selection is **Pantry + Instacart**. This new prompt must be checked in a live run before that outcome is claimed. The exact groceries depend on the inventory and store catalog; Jev does not decide quantities or place an order.
+In the [recorded live check](artifacts/live-evaluation.json), Jev selected **Pantry + Instacart** for this prompt. The exact groceries depend on the inventory and store catalog; Jev does not decide quantities or place an order.
 
 ## Connect ChatGPT
 
@@ -77,7 +77,7 @@ npm run eval   # synthetic live cases; requires a running bridge
 
 `http://127.0.0.1:4328/fixture` runs the production content script against an explicitly labeled local test composer. It is not ChatGPT.
 
-The [recorded evaluation](artifacts/live-evaluation.json) covers ten synthetic cases with the earlier, explicit Pantry request. It does not establish the outcome for the indirect prompt above. This is a smoke check, not an accuracy estimate. A [CI template](docs/ci-example.yml) is included; GitHub Actions is not enabled.
+The [recorded evaluation](artifacts/live-evaluation.json) covers ten synthetic cases, including the indirect Pantry request above. All ten passed; this is a smoke check, not an accuracy estimate. A [CI template](docs/ci-example.yml) is included; GitHub Actions is not enabled.
 
 The [live recording notes](docs/demo.md) document the ChatGPT check and video edits. The deterministic suite has 21 tests, including the current roleless plugin picker and native mention resolution.
 
