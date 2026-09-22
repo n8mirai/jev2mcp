@@ -8,11 +8,15 @@ Built for people who work with MCP servers, plugins, and multiple tool sets. Jev
 
 [Watch the 30-second live ChatGPT demo](https://github.com/n8mirai/jev2mcp/releases/download/v0.2.1/jev2mcp-live-demo.mp4).
 
+[Watch the Pantry + Instacart routing demo](artifacts/jev2mcp-pantry-instacart-demo.mp4) and read its [recorded outcome](docs/pantry-demo.md).
+
 ## Current implementation
 
 - **ChatGPT browser extension:** checks a prompt before Send, selects matching entries in the native `@` picker, then resumes sending.
 - **Local companion:** inspect selections and probabilities, configure tools, and copy a prompt for ChatGPT desktop.
 - **Routing module:** one TypeSafe request for the overall decision and each enabled tool. No generated tool names or rewritten prompts.
+
+The starter catalog includes Pantry for recorded food inventory and Instacart for building a grocery cart. A request to check what is on hand and cart only missing staples can select both. jev2mcp selects the tools; ChatGPT carries out the inventory lookup and cart action after the native mentions are attached.
 
 Experimental. Verified in signed-in ChatGPT Chat: Jev selected Google Drive, the extension attached its native mention, and ChatGPT retrieved a real demo document. ChatGPT Work remains unverified. Desktop support is a manual handoff. The tool catalog is configured by you; it does not discover your account's installed tools or connect directly to MCP servers.
 
@@ -30,6 +34,13 @@ npm start
 Open `http://127.0.0.1:4328`. On macOS, **Run jev2mcp.command** uses the TypeSafe skill's Keychain helper when available, or prompts for a key for the current process. TypeSafe usage is billed separately from ChatGPT.
 
 In **Tools**, enable only tools available to you. Add MCP servers, plugins, or tools using their exact ChatGPT picker names and a short description of what they do.
+Existing companion tool settings gain new starter entries without resetting your enabled choices or custom tools. Check that Pantry and Instacart are enabled before pairing the extension again.
+
+For a less tidy routing test, try:
+
+> Okay, this is scattered: I need breakfasts for next week, probably egg sandwiches and coffee, but do not make me buy things already in the kitchen. I also thought we were out of rice and canned tomatoes, though I may be wrong. Check the recorded pantry first, then put only the missing breakfast basics plus any genuinely low staples in a grocery cart for me to review. Do not check out.
+
+The expected tool selection is **Pantry + Instacart**. The exact groceries depend on the inventory and store catalog; Jev does not decide quantities or place an order.
 
 ## Connect ChatGPT
 

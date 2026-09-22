@@ -27,7 +27,14 @@ export const catalog = [
     name: 'Pantry',
     mention: 'Pantry',
     description:
-      'Read the user’s recorded pantry and ingredients; plan meals based on what they actually have; update grocery inventory.',
+      'Read the user’s actual food inventory, including quantities and items running low; plan meals or a restock list using what is already on hand. Use before shopping when the request depends on avoiding duplicates or filling pantry gaps.',
+  },
+  {
+    id: 'instacart',
+    name: 'Instacart',
+    mention: 'Instacart',
+    description:
+      'Search available groceries and create or update an Instacart shopping cart. Use when the user wants groceries placed in a cart, including a cart based on missing pantry staples. Do not treat adding to cart as placing an order.',
   },
   {
     id: 'personal-vault',
