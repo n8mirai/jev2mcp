@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Jev · Extension adapter test lab</title>
+    <link rel="stylesheet" href="/style.css" />
+    <style>
+      .lab {
+        max-width: 850px;
+        margin: 80px auto;
+      }
+      .lab h1 {
+        font-size: 48px;
+      }
+      .notice {
+        padding: 14px 20px;
+        background: #314632;
+        border: 1px solid #738958;
+        border-radius: 12px;
+        color: #d8e9bb;
+      }
+      .lab form {
+        margin-top: 30px;
+        background: #1c3027;
+        border: 1px solid #587052;
+        border-radius: 16px;
+        padding: 22px;
+      }
+      #prompt-textarea {
+        min-height: 100px;
+        font-size: 23px;
+        outline: none;
+        white-space: pre-wrap;
+      }
+      #prompt-textarea [contenteditable='false'] {
+        display: inline-block;
+        background: #49683a;
+        border: 1px solid #819967;
+        border-radius: 12px;
+        font-size: 16px;
+        padding: 6px 12px;
+        color: #dcf7b6;
+      }
+      .picker {
+        display: flex;
+        flex-direction: column;
+        background: #253c2e;
+        padding: 12px;
+        border-radius: 10px;
+      }
+      .picker button {
+        color: #e6f1d9;
+        padding: 12px;
+        text-align: left;
+        background: transparent;
+        border: 0;
+        font-size: 16px;
+      }
+      .sent {
+        margin: 24px 0;
+        padding: 22px;
+        background: #dbe9c8;
+        color: #213724;
+        border-radius: 14px;
+      }
+      .sent pre {
+        white-space: pre-wrap;
+        font: 17px/1.6 system-ui;
+      }
+      .toolbar {
+        margin: 25px 0;
+        display: flex;
+        gap: 12px;
+      }
+      #count {
+        font: 12px monospace;
+        color: #b5c5a4;
+      }
+      .lab a {
+        color: #d8fa78;
+      }
+      .caption {
+        font-size: 14px;
+        color: #98ac9b;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="lab">
+      <a href="/">← Jev Relay</a>
+      <div class="eyebrow" style="margin-top: 40px">EXTENSION INTEGRATION / TEST LAB</div>
+      <h1>Intercept. Attach. <em>Send.</em></h1>
+      <div class="notice">
+        Local test composer · real Jev API · production extension script.<br />No ChatGPT response
+        is simulated. Submissions stay on this page.
+      </div>
+      <div class="toolbar">
+        <button id="doc-example" class="secondary">Document request</button
+        ><button id="plain-example" class="secondary">Plain question</button
+        ><button id="multi-example" class="secondary">Two plugins</button>
+      </div>
+      <form id="composer">
+        <div
+          id="prompt-textarea"
+          role="textbox"
+          aria-label="Test prompt"
+          contenteditable="true"
+        ></div>
+        <div id="picker" class="picker" role="listbox" aria-label="Plugin picker" hidden></div>
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 24px;
+          "
+        >
+          <span id="count">0 submissions</span
+          ><button type="submit" aria-label="Send prompt" data-testid="send-button" class="primary">
+            Send prompt ↑
+          </button>
+        </div>
+      </form>
+      <div id="transcript" aria-live="polite"></div>
+      <p class="caption">
+        The native picker fixture models an editable composer and real mention nodes. Live ChatGPT
+        DOM compatibility is separately documented in the README.
+      </p>
+    </main>
+    <script type="module" src="/fixture.js"></script>
+    <script src="/adapter.js"></script>
+  </body>
+</html>

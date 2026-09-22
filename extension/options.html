@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+  <meta charset="utf-8" /><title>Jev Router settings</title
+  ><style>
+    body {
+      width: 330px;
+      background: #14211e;
+      color: #eef2e8;
+      font: 14px system-ui;
+      padding: 20px;
+    }
+    h1 {
+      font-size: 24px;
+    }
+    p {
+      color: #bbc5bc;
+      line-height: 1.5;
+    }
+    textarea,
+    input {
+      box-sizing: border-box;
+      width: 100%;
+      background: #21332e;
+      border: 1px solid #53645b;
+      border-radius: 8px;
+      color: white;
+      padding: 10px;
+    }
+    label {
+      display: block;
+      margin: 16px 0;
+    }
+    input[type='checkbox'] {
+      width: auto;
+    }
+    button,
+    a {
+      display: block;
+      background: #d7fa70;
+      color: #17231c;
+      border: 0;
+      border-radius: 9px;
+      padding: 12px;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      font-weight: 700;
+      margin: 12px 0;
+    }
+    small {
+      display: block;
+      color: #bec9bb;
+    }
+    #status {
+      color: #d7fa70;
+    }
+  </style>
+  <h1>Jev → ChatGPT</h1>
+  <p>One small decision before Send.</p>
+  <a href="http://127.0.0.1:4328" target="_blank">Open desktop companion ↗</a
+  ><label
+    >Pairing package<textarea
+      id="pair"
+      rows="3"
+      placeholder="Paste from companion → Setup"
+    ></textarea></label
+  ><button id="save">Pair & enable</button
+  ><label><input id="enabled" type="checkbox" /> Route before sending</label
+  ><label><input id="context" type="checkbox" /> Include last 4 visible chat messages</label
+  ><small
+    >Prompt and enabled plugin descriptions go to TypeSafe. Context is off by default. No prompt
+    history is stored.</small
+  >
+  <p id="status" role="status"></p>
+  <script src="options.js"></script>
+</html>

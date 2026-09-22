@@ -1,0 +1,25 @@
+{
+  "name": "jev-plugin-router",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "start": "node src/server.mjs",
+    "test": "node --test test/*.test.mjs",
+    "eval": "node scripts/evaluate.mjs",
+    "format": "prettier --write src extension public test scripts/*.mjs README.md SECURITY.md docs/design.md package.json docs/ci-example.yml"
+  },
+  "engines": {
+    "node": ">=22.13"
+  },
+  "devDependencies": {
+    "jsdom": "^29.1.1",
+    "prettier": "^3.9.8"
+  },
+  "license": "MIT",
+  "description": "A local Jev middle step that routes ChatGPT prompts to enabled plugins.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/n8mirai/jev-relay.git"
+  }
+}

@@ -1,0 +1,624 @@
+{
+  "at": "2026-09-22T15:56:01.859Z",
+  "note": "Synthetic prompts. Small smoke evaluation, not a general accuracy claim.",
+  "results": [
+    {
+      "name": "plain explanation",
+      "prompt": "Explain why the sky is blue in one sentence.",
+      "expected": [],
+      "passed": true,
+      "result": {
+        "status": "unchanged",
+        "needsTools": 0.02,
+        "selected": [],
+        "scores": [
+          {
+            "id": "gmail",
+            "name": "Gmail",
+            "mention": "Gmail",
+            "description": "Find and read the user’s email and threads, search inbox and draft email. Not general writing or explaining email.",
+            "probability": 0.01
+          },
+          {
+            "id": "google-drive",
+            "name": "Google Drive",
+            "mention": "Google Drive",
+            "description": "Find, read, create and edit connected Google Drive files, Google Docs, Sheets and Slides.",
+            "probability": 0.01
+          },
+          {
+            "id": "google-calendar",
+            "name": "Google Calendar",
+            "mention": "Google Calendar",
+            "description": "Read actual calendar events and availability, create or change calendar events. Not general scheduling advice.",
+            "probability": 0.01
+          },
+          {
+            "id": "pantry",
+            "name": "Pantry",
+            "mention": "Pantry",
+            "description": "Read the user’s recorded pantry and ingredients; plan meals based on what they actually have; update grocery inventory.",
+            "probability": 0.01
+          },
+          {
+            "id": "personal-vault",
+            "name": "Personal Vault",
+            "mention": "Personal Vault",
+            "description": "Read or update the user’s personal Markdown notes, ongoing plans and adopted decisions in their vault.",
+            "probability": 0.01
+          },
+          {
+            "id": "sites",
+            "name": "Sites",
+            "mention": "Sites",
+            "description": "Build, edit and host a complete website or interactive web app. Not explaining HTML or answering coding questions.",
+            "probability": 0.01
+          }
+        ],
+        "original": "Explain why the sky is blue in one sentence.",
+        "output": "Explain why the sky is blue in one sentence.",
+        "model": "jev-1.13.0",
+        "elapsedMs": 462,
+        "usage": {
+          "input_tokens": 1797,
+          "output_tokens": 122
+        },
+        "policy": {
+          "yes": 0.8,
+          "no": 0.2,
+          "version": "1"
+        },
+        "reason": "No installed plugin needed",
+        "live": true,
+        "fingerprint": "637207e5e56c1d7b597634929bf1ad26824b2871ff94b8ddea25fa200bdbaa94"
+      }
+    },
+    {
+      "name": "Drive lookup",
+      "prompt": "Find the latest project brief in my Google Drive and summarize it.",
+      "expected": [
+        "google-drive"
+      ],
+      "passed": true,
+      "result": {
+        "status": "routed",
+        "needsTools": 0.98,
+        "selected": [
+          {
+            "id": "google-drive",
+            "name": "Google Drive",
+            "mention": "Google Drive",
+            "description": "Find, read, create and edit connected Google Drive files, Google Docs, Sheets and Slides.",
+            "probability": 0.99
+          }
+        ],
+        "scores": [
+          {
+            "id": "google-drive",
+            "name": "Google Drive",
+            "mention": "Google Drive",
+            "description": "Find, read, create and edit connected Google Drive files, Google Docs, Sheets and Slides.",
+            "probability": 0.99
+          },
+          {
+            "id": "personal-vault",
+            "name": "Personal Vault",
+            "mention": "Personal Vault",
+            "description": "Read or update the user’s personal Markdown notes, ongoing plans and adopted decisions in their vault.",
+            "probability": 0.05
+          },
+          {
+            "id": "gmail",
+            "name": "Gmail",
+            "mention": "Gmail",
+            "description": "Find and read the user’s email and threads, search inbox and draft email. Not general writing or explaining email.",
+            "probability": 0.04
+          },
+          {
+            "id": "google-calendar",
+            "name": "Google Calendar",
+            "mention": "Google Calendar",
+            "description": "Read actual calendar events and availability, create or change calendar events. Not general scheduling advice.",
+            "probability": 0.03
+          },
+          {
+            "id": "pantry",
+            "name": "Pantry",
+            "mention": "Pantry",
+            "description": "Read the user’s recorded pantry and ingredients; plan meals based on what they actually have; update grocery inventory.",
+            "probability": 0.02
+          },
+          {
+            "id": "sites",
+            "name": "Sites",
+            "mention": "Sites",
+            "description": "Build, edit and host a complete website or interactive web app. Not explaining HTML or answering coding questions.",
+            "probability": 0.02
+          }
+        ],
+        "original": "Find the latest project brief in my Google Drive and summarize it.",
+        "output": "@Google Drive\n\nFind the latest project brief in my Google Drive and summarize it.",
+        "model": "jev-1.13.0",
+        "elapsedMs": 193,
+        "usage": {
+          "input_tokens": 1799,
+          "output_tokens": 122
+        },
+        "policy": {
+          "yes": 0.8,
+          "no": 0.2,
+          "version": "1"
+        },
+        "reason": "Installed plugins matched",
+        "live": true,
+        "fingerprint": "07c04ef5545492b3e45e471a50eeb845b80b12c21295737932bae5d59038cfce"
+      }
+    },
+    {
+      "name": "mail plus calendar",
+      "prompt": "Find the meeting time in my latest email and check whether my calendar is free then.",
+      "expected": [
+        "gmail",
+        "google-calendar"
+      ],
+      "passed": true,
+      "result": {
+        "status": "routed",
+        "needsTools": 0.98,
+        "selected": [
+          {
+            "id": "gmail",
+            "name": "Gmail",
+            "mention": "Gmail",
+            "description": "Find and read the user’s email and threads, search inbox and draft email. Not general writing or explaining email.",
+            "probability": 0.98
+          },
+          {
+            "id": "google-calendar",
+            "name": "Google Calendar",
+            "mention": "Google Calendar",
+            "description": "Read actual calendar events and availability, create or change calendar events. Not general scheduling advice.",
+            "probability": 0.98
+          }
+        ],
+        "scores": [
+          {
+            "id": "gmail",
+            "name": "Gmail",
+            "mention": "Gmail",
+            "description": "Find and read the user’s email and threads, search inbox and draft email. Not general writing or explaining email.",
+            "probability": 0.98
+          },
+          {
+            "id": "google-calendar",
+            "name": "Google Calendar",
+            "mention": "Google Calendar",
+            "description": "Read actual calendar events and availability, create or change calendar events. Not general scheduling advice.",
+            "probability": 0.98
+          },
+          {
+            "id": "personal-vault",
+            "name": "Personal Vault",
+            "mention": "Personal Vault",
+            "description": "Read or update the user’s personal Markdown notes, ongoing plans and adopted decisions in their vault.",
+            "probability": 0.04
+          },
+          {
+            "id": "google-drive",
+            "name": "Google Drive",
+            "mention": "Google Drive",
+            "description": "Find, read, create and edit connected Google Drive files, Google Docs, Sheets and Slides.",
+            "probability": 0.03
+          },
+          {
+            "id": "sites",
+            "name": "Sites",
+            "mention": "Sites",
+            "description": "Build, edit and host a complete website or interactive web app. Not explaining HTML or answering coding questions.",
+            "probability": 0.02
+          },
+          {
+            "id": "pantry",
+            "name": "Pantry",
+            "mention": "Pantry",
+            "description": "Read the user’s recorded pantry and ingredients; plan meals based on what they actually have; update grocery inventory.",
+            "probability": 0.01
+          }
+        ],
+        "original": "Find the meeting time in my latest email and check whether my calendar is free then.",
+        "output": "@Gmail @Google Calendar\n\nFind the meeting time in my latest email and check whether my calendar is free then.",
+        "model": "jev-1.13.0",
+        "elapsedMs": 278,
+        "usage": {
+          "input_tokens": 1803,
+          "output_tokens": 122
+        },
+        "policy": {
+          "yes": 0.8,
+          "no": 0.2,
+          "version": "1"
+        },
+        "reason": "Installed plugins matched",
+        "live": true,
+        "fingerprint": "1ffe201b7d9920dd367a32428fa8d9fcb29b0fc9d6f6f46363be855fba6a4030"
+      }
+    },
+    {
+      "name": "product mention only",
+      "prompt": "Explain what Gmail is. Do not access my account.",
+      "expected": [],
+      "passed": true,
+      "result": {
+        "status": "unchanged",
+        "needsTools": 0.03,
+        "selected": [],
+        "scores": [
+          {
+            "id": "gmail",
+            "name": "Gmail",
+            "mention": "Gmail",
+            "description": "Find and read the user’s email and threads, search inbox and draft email. Not general writing or explaining email.",
+            "probability": 0.03
+          },
+          {
+            "id": "google-drive",
+            "name": "Google Drive",
+            "mention": "Google Drive",
+            "description": "Find, read, create and edit connected Google Drive files, Google Docs, Sheets and Slides.",
+            "probability": 0.02
+          },
+          {
+            "id": "google-calendar",
+            "name": "Google Calendar",
+            "mention": "Google Calendar",
+            "description": "Read actual calendar events and availability, create or change calendar events. Not general scheduling advice.",
+            "probability": 0.02
+          },
+          {
+            "id": "personal-vault",
+            "name": "Personal Vault",
+            "mention": "Personal Vault",
+            "description": "Read or update the user’s personal Markdown notes, ongoing plans and adopted decisions in their vault.",
+            "probability": 0.02
+          },
+          {
+            "id": "sites",
+            "name": "Sites",
+            "mention": "Sites",
+            "description": "Build, edit and host a complete website or interactive web app. Not explaining HTML or answering coding questions.",
+            "probability": 0.02
+          },
+          {
+            "id": "pantry",
+            "name": "Pantry",
+            "mention": "Pantry",
+            "description": "Read the user’s recorded pantry and ingredients; plan meals based on what they actually have; update grocery inventory.",
+            "probability": 0.01
+          }
+        ],
+        "original": "Explain what Gmail is. Do not access my account.",
+        "output": "Explain what Gmail is. Do not access my account.",
+        "model": "jev-1.13.0",
+        "elapsedMs": 191,
+        "usage": {
+          "input_tokens": 1798,
+          "output_tokens": 122
+        },
+        "policy": {
+          "yes": 0.8,
+          "no": 0.2,
+          "version": "1"
+        },
+        "reason": "No installed plugin needed",
+        "live": true,
+        "fingerprint": "507e99b538327bd1583536d95f01101bbc97a0ca5927d5eb0bd26ebeb536641e"
+      }
+    },
+    {
+      "name": "text supplied",
+      "prompt": "Summarize this email: The picnic is Saturday at noon. Bring sandwiches.",
+      "expected": [],
+      "passed": true,
+      "result": {
+        "status": "unchanged",
+        "needsTools": 0.06,
+        "selected": [],
+        "scores": [
+          {
+            "id": "gmail",
+            "name": "Gmail",
+            "mention": "Gmail",
+            "description": "Find and read the user’s email and threads, search inbox and draft email. Not general writing or explaining email.",
+            "probability": 0.08
+          },
+          {
+            "id": "google-calendar",
+            "name": "Google Calendar",
+            "mention": "Google Calendar",
+            "description": "Read actual calendar events and availability, create or change calendar events. Not general scheduling advice.",
+            "probability": 0.03
+          },
+          {
+            "id": "personal-vault",
+            "name": "Personal Vault",
+            "mention": "Personal Vault",
+            "description": "Read or update the user’s personal Markdown notes, ongoing plans and adopted decisions in their vault.",
+            "probability": 0.03
+          },
+          {
+            "id": "google-drive",
+            "name": "Google Drive",
+            "mention": "Google Drive",
+            "description": "Find, read, create and edit connected Google Drive files, Google Docs, Sheets and Slides.",
+            "probability": 0.02
+          },
+          {
+            "id": "pantry",
+            "name": "Pantry",
+            "mention": "Pantry",
+            "description": "Read the user’s recorded pantry and ingredients; plan meals based on what they actually have; update grocery inventory.",
+            "probability": 0.02
+          },
+          {
+            "id": "sites",
+            "name": "Sites",
+            "mention": "Sites",
+            "description": "Build, edit and host a complete website or interactive web app. Not explaining HTML or answering coding questions.",
+            "probability": 0.01
+          }
+        ],
+        "original": "Summarize this email: The picnic is Saturday at noon. Bring sandwiches.",
+        "output": "Summarize this email: The picnic is Saturday at noon. Bring sandwiches.",
+        "model": "jev-1.13.0",
+        "elapsedMs": 183,
+        "usage": {
+          "input_tokens": 1802,
+          "output_tokens": 122
+        },
+        "policy": {
+          "yes": 0.8,
+          "no": 0.2,
+          "version": "1"
+        },
+        "reason": "No installed plugin needed",
+        "live": true,
+        "fingerprint": "b8f2361e9353e02d5ce0639870080e56b0175079e8eb95be252cfbddb90cdb8b"
+      }
+    },
+    {
+      "name": "uninstalled tool",
+      "allowReview": true,
+      "prompt": "Summarize my Slack messages from today.",
+      "expected": [],
+      "passed": true,
+      "result": {
+        "status": "review",
+        "needsTools": 0.31,
+        "selected": [],
+        "scores": [
+          {
+            "id": "personal-vault",
+            "name": "Personal Vault",
+            "mention": "Personal Vault",
+            "description": "Read or update the user’s personal Markdown notes, ongoing plans and adopted decisions in their vault.",
+            "probability": 0.05
+          },
+          {
+            "id": "google-drive",
+            "name": "Google Drive",
+            "mention": "Google Drive",
+            "description": "Find, read, create and edit connected Google Drive files, Google Docs, Sheets and Slides.",
+            "probability": 0.04
+          },
+          {
+            "id": "gmail",
+            "name": "Gmail",
+            "mention": "Gmail",
+            "description": "Find and read the user’s email and threads, search inbox and draft email. Not general writing or explaining email.",
+            "probability": 0.03
+          },
+          {
+            "id": "google-calendar",
+            "name": "Google Calendar",
+            "mention": "Google Calendar",
+            "description": "Read actual calendar events and availability, create or change calendar events. Not general scheduling advice.",
+            "probability": 0.03
+          },
+          {
+            "id": "pantry",
+            "name": "Pantry",
+            "mention": "Pantry",
+            "description": "Read the user’s recorded pantry and ingredients; plan meals based on what they actually have; update grocery inventory.",
+            "probability": 0.02
+          },
+          {
+            "id": "sites",
+            "name": "Sites",
+            "mention": "Sites",
+            "description": "Build, edit and host a complete website or interactive web app. Not explaining HTML or answering coding questions.",
+            "probability": 0.02
+          }
+        ],
+        "original": "Summarize my Slack messages from today.",
+        "output": "Summarize my Slack messages from today.",
+        "model": "jev-1.13.0",
+        "elapsedMs": 151,
+        "usage": {
+          "input_tokens": 1795,
+          "output_tokens": 122
+        },
+        "policy": {
+          "yes": 0.8,
+          "no": 0.2,
+          "version": "1"
+        },
+        "reason": "Uncertain — review before sending",
+        "live": true,
+        "fingerprint": "a2caf37a9bd4a47874fb742eff9925c0559fefb81051a344a92b2f2e9b305bf5"
+      }
+    },
+    {
+      "name": "context follow-up",
+      "prompt": "Find that document for me.",
+      "context": "User: I saved the launch brief in Google Drive.",
+      "expected": [
+        "google-drive"
+      ],
+      "passed": true,
+      "result": {
+        "status": "routed",
+        "needsTools": 0.96,
+        "selected": [
+          {
+            "id": "google-drive",
+            "name": "Google Drive",
+            "mention": "Google Drive",
+            "description": "Find, read, create and edit connected Google Drive files, Google Docs, Sheets and Slides.",
+            "probability": 0.96
+          }
+        ],
+        "scores": [
+          {
+            "id": "google-drive",
+            "name": "Google Drive",
+            "mention": "Google Drive",
+            "description": "Find, read, create and edit connected Google Drive files, Google Docs, Sheets and Slides.",
+            "probability": 0.96
+          },
+          {
+            "id": "personal-vault",
+            "name": "Personal Vault",
+            "mention": "Personal Vault",
+            "description": "Read or update the user’s personal Markdown notes, ongoing plans and adopted decisions in their vault.",
+            "probability": 0.06
+          },
+          {
+            "id": "gmail",
+            "name": "Gmail",
+            "mention": "Gmail",
+            "description": "Find and read the user’s email and threads, search inbox and draft email. Not general writing or explaining email.",
+            "probability": 0.05
+          },
+          {
+            "id": "sites",
+            "name": "Sites",
+            "mention": "Sites",
+            "description": "Build, edit and host a complete website or interactive web app. Not explaining HTML or answering coding questions.",
+            "probability": 0.03
+          },
+          {
+            "id": "google-calendar",
+            "name": "Google Calendar",
+            "mention": "Google Calendar",
+            "description": "Read actual calendar events and availability, create or change calendar events. Not general scheduling advice.",
+            "probability": 0.02
+          },
+          {
+            "id": "pantry",
+            "name": "Pantry",
+            "mention": "Pantry",
+            "description": "Read the user’s recorded pantry and ingredients; plan meals based on what they actually have; update grocery inventory.",
+            "probability": 0.02
+          }
+        ],
+        "original": "Find that document for me.",
+        "output": "@Google Drive\n\nFind that document for me.",
+        "model": "jev-1.13.0",
+        "elapsedMs": 188,
+        "usage": {
+          "input_tokens": 1803,
+          "output_tokens": 122
+        },
+        "policy": {
+          "yes": 0.8,
+          "no": 0.2,
+          "version": "1"
+        },
+        "reason": "Installed plugins matched",
+        "live": true,
+        "fingerprint": "51c4b64d7b62fd5272dd20daea125288b9964e42ac21fdbd967aa1a777b89c37"
+      }
+    },
+    {
+      "name": "inventory lookup",
+      "prompt": "What ingredients do I have in my pantry?",
+      "expected": [
+        "pantry"
+      ],
+      "passed": true,
+      "result": {
+        "status": "routed",
+        "needsTools": 0.96,
+        "selected": [
+          {
+            "id": "pantry",
+            "name": "Pantry",
+            "mention": "Pantry",
+            "description": "Read the user’s recorded pantry and ingredients; plan meals based on what they actually have; update grocery inventory.",
+            "probability": 0.97
+          }
+        ],
+        "scores": [
+          {
+            "id": "pantry",
+            "name": "Pantry",
+            "mention": "Pantry",
+            "description": "Read the user’s recorded pantry and ingredients; plan meals based on what they actually have; update grocery inventory.",
+            "probability": 0.97
+          },
+          {
+            "id": "personal-vault",
+            "name": "Personal Vault",
+            "mention": "Personal Vault",
+            "description": "Read or update the user’s personal Markdown notes, ongoing plans and adopted decisions in their vault.",
+            "probability": 0.06
+          },
+          {
+            "id": "google-drive",
+            "name": "Google Drive",
+            "mention": "Google Drive",
+            "description": "Find, read, create and edit connected Google Drive files, Google Docs, Sheets and Slides.",
+            "probability": 0.05
+          },
+          {
+            "id": "gmail",
+            "name": "Gmail",
+            "mention": "Gmail",
+            "description": "Find and read the user’s email and threads, search inbox and draft email. Not general writing or explaining email.",
+            "probability": 0.03
+          },
+          {
+            "id": "google-calendar",
+            "name": "Google Calendar",
+            "mention": "Google Calendar",
+            "description": "Read actual calendar events and availability, create or change calendar events. Not general scheduling advice.",
+            "probability": 0.02
+          },
+          {
+            "id": "sites",
+            "name": "Sites",
+            "mention": "Sites",
+            "description": "Build, edit and host a complete website or interactive web app. Not explaining HTML or answering coding questions.",
+            "probability": 0.02
+          }
+        ],
+        "original": "What ingredients do I have in my pantry?",
+        "output": "@Pantry\n\nWhat ingredients do I have in my pantry?",
+        "model": "jev-1.13.0",
+        "elapsedMs": 324,
+        "usage": {
+          "input_tokens": 1795,
+          "output_tokens": 122
+        },
+        "policy": {
+          "yes": 0.8,
+          "no": 0.2,
+          "version": "1"
+        },
+        "reason": "Installed plugins matched",
+        "live": true,
+        "fingerprint": "41990656f7aebe4364cc104c88bce7ca2c18d49fda51c9018bf01b656ab00aef"
+      }
+    }
+  ]
+}

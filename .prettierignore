@@ -1,0 +1,6 @@
+.local/
+node_modules/
+artifacts/
+docs/api.md
+docs/noul.md
+docs/skill-suggestion.md

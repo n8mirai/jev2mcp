@@ -1,0 +1,64 @@
+WEBVTT
+
+00:00:00.000 --> 00:00:04.186
+Meet Jev Relay. A small, local middle step between your prompt and ChatGPT. Jev
+
+00:00:04.186 --> 00:00:08.373
+answers one question: does this request need any of your enabled plugins? These are
+
+00:00:08.373 --> 00:00:12.559
+actual captures from the running demo.
+
+00:00:13.360 --> 00:00:17.053
+Ask to find a project brief in Google Drive. Jev selects Google Drive, and
+
+00:00:17.053 --> 00:00:20.746
+the companion adds its at mention before the original prompt. The probability and measured
+
+00:00:20.746 --> 00:00:24.439
+request time remain visible.
+
+00:00:25.240 --> 00:00:29.380
+Now ask why the sky is blue. No account records or plugin workflow are
+
+00:00:29.380 --> 00:00:33.520
+needed. Jev returns a low tools probability, so the prompt stays unchanged. The model
+
+00:00:33.520 --> 00:00:37.660
+judges intent, rather than matching a keyword.
+
+00:00:38.460 --> 00:00:42.356
+Ask for a meeting time from email and a calendar availability check. Both Gmail
+
+00:00:42.356 --> 00:00:46.253
+and Google Calendar are selected. Each plugin gets an independent yes or no probability,
+
+00:00:46.253 --> 00:00:50.150
+batched into the same request.
+
+00:00:50.950 --> 00:00:55.956
+The integration lab runs the production extension script. It intercepts Send, calls Jev, chooses
+
+00:00:55.956 --> 00:01:00.963
+the picker entries, verifies mention nodes, and submits once. This is a local test
+
+00:01:00.963 --> 00:01:05.970
+composer, not a recorded ChatGPT conversation.
+
+00:01:06.770 --> 00:01:11.073
+The API key stays on the local bridge. Pair the browser extension, or copy
+
+00:01:11.073 --> 00:01:15.376
+the routed prompt into native ChatGPT and select its plugins. Native desktop support is
+
+00:01:15.376 --> 00:01:19.680
+a handoff; it does not intercept the app.
+
+00:01:20.480 --> 00:01:25.886
+Enable only plugins you actually have. Nineteen deterministic tests pass, and eight live smoke
+
+00:01:25.886 --> 00:01:31.293
+cases behaved as expected, including one held for review. Signed in ChatGPT injection still
+
+00:01:31.293 --> 00:01:36.700
+needs validation. The source, evidence, and demo are on GitHub.

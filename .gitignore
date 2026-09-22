@@ -1,0 +1,10 @@
+.local/
+node_modules/
+artifacts/*.mov
+docs/api.md
+docs/noul.md
+docs/skill-suggestion.md
+.DS_Store
+artifacts/narration-*
+artifacts/video-frames/
+artifacts/segments/
