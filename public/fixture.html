@@ -3,27 +3,29 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Jev · Extension adapter test lab</title>
+    <title>jev2mcp · Adapter test</title>
     <link rel="stylesheet" href="/style.css" />
     <style>
       .lab {
         max-width: 850px;
-        margin: 80px auto;
+        margin: 64px auto;
+        padding: 0 24px;
+        width: 100%;
       }
       .lab h1 {
-        font-size: 48px;
+        font-size: 28px;
       }
       .notice {
         padding: 14px 20px;
-        background: #314632;
-        border: 1px solid #738958;
+        background: #f7f7f7;
+        border: 1px solid #ddd;
         border-radius: 12px;
-        color: #d8e9bb;
+        color: #555;
       }
       .lab form {
         margin-top: 30px;
-        background: #1c3027;
-        border: 1px solid #587052;
+        background: #f7f7f7;
+        border: 1px solid #ddd;
         border-radius: 16px;
         padding: 22px;
       }
@@ -35,22 +37,22 @@
       }
       #prompt-textarea [contenteditable='false'] {
         display: inline-block;
-        background: #49683a;
-        border: 1px solid #819967;
+        background: #fff;
+        border: 1px solid #ddd;
         border-radius: 12px;
         font-size: 16px;
         padding: 6px 12px;
-        color: #dcf7b6;
+        color: #333;
       }
       .picker {
         display: flex;
         flex-direction: column;
-        background: #253c2e;
+        background: #fff;
         padding: 12px;
         border-radius: 10px;
       }
       .picker button {
-        color: #e6f1d9;
+        color: #333;
         padding: 12px;
         text-align: left;
         background: transparent;
@@ -60,13 +62,26 @@
       .sent {
         margin: 24px 0;
         padding: 22px;
-        background: #dbe9c8;
-        color: #213724;
+        background: #f2f2f2;
+        color: #222;
         border-radius: 14px;
       }
       .sent pre {
         white-space: pre-wrap;
         font: 17px/1.6 system-ui;
+      }
+      .toolbar button {
+        border: 1px solid #ddd;
+        border-radius: 20px;
+        padding: 10px 14px;
+        background: #fff;
+      }
+      .primary {
+        background: #222;
+        color: white;
+        border: 0;
+        border-radius: 24px;
+        padding: 10px 16px;
       }
       .toolbar {
         margin: 25px 0;
@@ -75,22 +90,22 @@
       }
       #count {
         font: 12px monospace;
-        color: #b5c5a4;
+        color: #777;
       }
       .lab a {
-        color: #d8fa78;
+        color: #555;
       }
       .caption {
         font-size: 14px;
-        color: #98ac9b;
+        color: #777;
       }
     </style>
   </head>
   <body>
     <main class="lab">
-      <a href="/">← Jev Relay</a>
-      <div class="eyebrow" style="margin-top: 40px">EXTENSION INTEGRATION / TEST LAB</div>
-      <h1>Intercept. Attach. <em>Send.</em></h1>
+      <a href="/">← jev2mcp</a>
+      <div class="eyebrow" style="margin-top: 40px">LOCAL ADAPTER TEST</div>
+      <h1>Check, attach, send.</h1>
       <div class="notice">
         Local test composer · real Jev API · production extension script.<br />No ChatGPT response
         is simulated. Submissions stay on this page.

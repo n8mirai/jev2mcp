@@ -1,4 +1,4 @@
-# Routing contract
+# jev2mcp routing contract
 
 The application asks one Noul for whether the latest request needs any enabled plugin, plus one independent Noul per enabled plugin. All questions run in the same TypeSafe request. A Noul is a probability of yes, not an intensity score or a separate confidence value. Jev does not generate prompt text, tool names or explanations here. JavaScript composes the original text with exact catalog entries.
 
@@ -28,4 +28,10 @@ The companion returns literal @ suggestions for copying. A literal `@Google Driv
 - [Function calling cookbook](https://docs.typesafe.ai/cookbooks/function_calling)
 - [Official ChatGPT plugin documentation](https://learn.chatgpt.com/docs/plugins)
 
-The skill-suggestion cookbook informed the explicit candidate catalog and no-match behavior. This small six-plugin demo uses one request, rather than reproducing the cookbook's two-stage ranking for a large skill catalog.
+The skill-suggestion cookbook informed the explicit candidate catalog and no-match behavior. This small six-tool starter catalog uses one request, rather than reproducing the cookbook's two-stage ranking for a large skill catalog.
+
+## Interface
+
+jev2mcp is a companion for AI power users. The main view has one prompt, optional context, and one action. Tool configuration and routing details are separate. The neutral palette and restrained typography follow the visual simplicity of ChatGPT; the project uses its own name and icon.
+
+Catalog entries may be labeled as MCP servers, plugins, or tools. These labels organize the configuration; they do not add an MCP transport. The current adapter attaches entries exposed in ChatGPT’s native picker.

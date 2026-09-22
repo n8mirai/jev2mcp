@@ -4,7 +4,10 @@
   const host = document.createElement('div');
   host.id = 'jev-router-host';
   const shadow = host.attachShadow({ mode: 'open' });
-  shadow.innerHTML = `<style>:host{position:fixed;right:24px;bottom:24px;z-index:2147483646;font:13px system-ui;color:#f4f7ed}section{width:300px;padding:16px;border:1px solid #4b6255;border-radius:17px;background:#182a24;box-shadow:0 12px 40px #0005}header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}b{color:#d7fa70;letter-spacing:.04em}p{margin:8px 0;line-height:1.4}small{color:#bdc9be}button{border:0;border-radius:8px;padding:7px 10px;margin:7px 6px 0 0;background:#d7fa70;color:#18241b;cursor:pointer;font-weight:650}.secondary{background:#344b40;color:white}progress{width:100%;accent-color:#d7fa70}details{margin-top:8px}pre{white-space:pre-wrap;font-size:11px;max-height:140px;overflow:auto}</style><section><header><b>JEV / ROUTER</b><small id="badge">Ready</small></header><p id="status">Plugin routing before Send.</p><small id="detail">Your prompt → Jev → ChatGPT</small><div id="actions"></div><details><summary>Decision details</summary><pre id="raw">Waiting for a prompt.</pre></details></section>`;
+  shadow.innerHTML = `<style>
+:host{position:fixed;right:20px;bottom:20px;z-index:2147483646;font:13px Arial,Helvetica,sans-serif;color:#202020;color-scheme:light}
+section{width:284px;padding:14px 16px;border:1px solid #e3e3e3;border-radius:14px;background:#fff;box-shadow:0 4px 20px #0000000d;animation:in .18s ease}header{display:flex;justify-content:space-between;align-items:center;margin-bottom:11px}b{font-size:13px;font-weight:500}p{margin:7px 0;line-height:1.5;font-size:13px}small{font-size:11px;color:#888}button{border:0;border-radius:7px;padding:7px 10px;margin:8px 6px 0 0;background:#222;color:white;cursor:pointer;font-size:12px}.secondary{background:#f3f3f3;color:#555}details{margin-top:12px;border-top:1px solid #eee;padding-top:10px;color:#888;font-size:11px}summary{cursor:pointer}pre{white-space:pre-wrap;font-size:10px;max-height:150px;overflow:auto;color:#666}#badge{color:#888}#detail:empty{display:none}@keyframes in{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}@media(prefers-color-scheme:dark){:host{color:#eee;color-scheme:dark}section{background:#303030;border-color:#484848;box-shadow:0 4px 20px #0003}button{background:#eee;color:#222}.secondary{background:#444;color:#eee}details{border-color:#484848}pre{color:#bbb}}@media(prefers-reduced-motion:reduce){section{animation:none}}
+</style><section><header><b>jev2mcp</b><small id="badge">Ready</small></header><p id="status">Tools checked before sending.</p><small id="detail"></small><div id="actions"></div><details><summary>Details</summary><pre id="raw">No prompt checked yet.</pre></details></section>`;
   document.documentElement.append(host);
   const $ = (id) => shadow.getElementById(id);
   let busy = false,
@@ -99,7 +102,7 @@
   async function attach(e, plugin, valid) {
     if (!valid()) throw new Error('Draft changed during attachment. Nothing sent.');
     if (e.tagName === 'TEXTAREA')
-      throw new Error('This composer has no native plugin picker. Select the plugin manually.');
+      throw new Error('This composer has no native tool picker. Select the tool manually.');
     atStart(e);
     applying = true;
     try {
@@ -140,7 +143,7 @@
     if (!valid()) throw new Error('Draft changed during attachment. Nothing sent.');
     if (!chip)
       throw new Error(
-        'Native plugin attachment could not be verified. Check the composer before sending.',
+        'Native tool attachment could not be verified. Check the composer before sending.',
       );
     return chip;
   }
@@ -166,7 +169,7 @@
       editVersion = userEdits;
     busy = true;
     $('actions').replaceChildren();
-    status('Does this prompt need a plugin?', 'Jev is reading the prompt…', 'Thinking');
+    status('Checking tools…', '', 'Jev');
     try {
       const context = contextEnabled
         ? [...document.querySelectorAll('[data-message-author-role]')]
@@ -202,31 +205,31 @@
         2,
       );
       if (result.status === 'review') {
-        status('Jev is unsure. Review this prompt.', 'No plugins attached.', 'Held');
+        status('Review needed.', 'Jev is unsure. No tools added.', 'Not sent');
         action('Send original', () => send(e, button));
         return;
       }
       if (result.status === 'unchanged') {
-        status('No plugin needed.', `${result.elapsedMs} ms · Prompt unchanged`, 'Pass through');
+        status('No tools needed.', `${result.elapsedMs} ms · Prompt unchanged`, 'Unchanged');
         send(e, button);
         return;
       }
       status(
         'Attaching ' + result.selected.map((p) => '@' + p.mention).join(' '),
-        `${result.elapsedMs} ms · Live Jev judgment`,
+        `${result.elapsedMs} ms · Jev`,
         'Routing',
       );
       const valid = () => e.isConnected && location.href === url && userEdits === editVersion;
       for (const p of [...result.selected].reverse()) await attach(e, p, valid);
       if (!valid()) throw new Error('Draft changed. Nothing sent.');
       status(
-        'Plugins attached. Sending…',
+        'Tools added. Sending…',
         result.selected.map((p) => '@' + p.mention).join(' '),
         'Routed',
       );
       send(e, button);
     } catch (error) {
-      status('Prompt held.', error.message, 'Needs attention');
+      status('Not sent.', error.message, 'Review');
       action(
         'Retry',
         () => {

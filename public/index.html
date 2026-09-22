@@ -3,178 +3,171 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Jev · The right tools, automatically</title>
+    <title>jev2mcp</title>
     <link rel="icon" href="/icon.svg" />
     <link rel="stylesheet" href="/style.css" />
   </head>
   <body>
-    <div class="shell">
-      <header>
-        <a class="brand" href="/"><img src="/icon.svg" alt="" />jev<span> / relay</span></a>
-        <nav>
-          <button class="tab active" data-tab="compose">Compose</button
-          ><button class="tab" data-tab="library">Your plugins</button
-          ><button class="tab" data-tab="setup">Setup</button>
+    <div class="app">
+      <aside class="sidebar">
+        <a href="/" class="brand"
+          ><img src="/icon.svg" alt="" width="24" height="24" /><span>jev2mcp</span></a
+        >
+        <nav aria-label="Navigation">
+          <button class="tab active" data-tab="compose">
+            <span aria-hidden="true">↗</span> New prompt
+          </button>
+          <button class="tab" data-tab="library"><span aria-hidden="true">⊞</span> Tools</button>
+          <button class="tab" data-tab="setup"><span aria-hidden="true">⚙</span> Settings</button>
         </nav>
-        <div class="live"><i></i><span id="connection">Connecting</span></div>
-      </header>
-      <main>
-        <section id="compose" class="view">
-          <div class="eyebrow">A LITTLE INTELLIGENCE. RIGHT BEFORE SEND.</div>
-          <h1>Your words.<br />The right <em>tools.</em></h1>
-          <p class="intro">Jev reads the intent. Your installed plugins come along.</p>
-          <div class="workspace">
-            <article class="composer">
-              <div class="card-head">
-                <span><i class="dot"></i> YOUR PROMPT</span
-                ><select id="surface" aria-label="Destination">
-                  <option value="chatgpt-chat">ChatGPT Chat</option>
-                  <option value="chatgpt-work">ChatGPT Work</option>
-                  <option value="desktop">Desktop companion</option>
-                </select>
-              </div>
+        <div class="sidebar-bottom">
+          <span class="connection"><i></i><span id="connection">Connecting</span></span
+          ><a href="https://github.com/n8mirai/jev2mcp" target="_blank" rel="noreferrer"
+            >GitHub ↗</a
+          >
+        </div>
+      </aside>
+      <div class="main-area">
+        <header><span>Tool routing</span><span class="header-note">Powered by Jev</span></header>
+        <main>
+          <section id="compose" class="view compose">
+            <div class="intro">
+              <h1>Which tools does this need?</h1>
+              <p>Select MCP servers and plugins from the prompt and context.</p>
+            </div>
+            <form id="prompt-form" class="composer">
               <textarea
                 id="prompt"
-                placeholder="What would you like to do?"
+                placeholder="Enter a prompt"
                 aria-label="Your prompt"
+                rows="3"
               ></textarea>
               <details class="context">
-                <summary>Add conversation context</summary>
+                <summary>Context <span>Optional</span></summary>
                 <textarea
                   id="context"
                   aria-label="Conversation context"
-                  placeholder="Optional context, only if this prompt needs it."
+                  placeholder="Add the context needed to understand this prompt."
+                  rows="3"
                 ></textarea>
               </details>
               <div class="composer-footer">
-                <span id="enabled-count">6 plugins available</span
-                ><button id="route" class="primary">Route with Jev <span>↗</span></button>
-              </div>
-              <div class="examples">
-                <span>TRY IT</span
-                ><button
-                  data-example="Find the latest project brief in my Google Drive and summarize it."
-                >
-                  Find a document</button
-                ><button data-example="Explain why the sky is blue in one sentence.">
-                  Just a question</button
-                ><button
-                  data-example="Find the meeting time in my latest email and check whether my calendar is free then."
-                >
-                  Two plugins
+                <button id="tool-shortcut" class="quiet" type="button">
+                  <span aria-hidden="true">⊞</span> <span id="enabled-count">Tools</span></button
+                ><button id="route" class="send" type="submit" aria-label="Check prompt">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M12 19V5M6 11l6-6 6 6" />
+                  </svg>
                 </button>
               </div>
-            </article>
-            <article class="decision">
-              <div class="card-head">
-                <span>THE MIDDLE STEP</span><span class="tag">LIVE JEV</span>
-              </div>
-              <div id="decision-content">
-                <div class="orbit"><span>j</span></div>
-                <h2>One small question.</h2>
-                <p>Does this prompt need<br />one of your installed plugins?</p>
-              </div>
-              <div id="metrics" class="metrics" hidden></div>
-            </article>
-          </div>
-          <article id="output-card" class="output" hidden>
-            <div class="card-head">
-              <span>READY FOR CHATGPT</span><span id="output-status"></span>
-            </div>
-            <pre id="output"></pre>
-            <div class="output-actions">
-              <span id="output-hint">Your original words stay intact.</span
-              ><button id="copy" class="secondary">Copy for desktop</button
-              ><a
-                id="open-chat"
-                class="primary"
-                href="https://chatgpt.com/"
-                target="_blank"
-                rel="noreferrer"
-                >Open ChatGPT ↗</a
-              >
-            </div>
-            <details>
-              <summary>Inspect the actual Jev decision</summary>
-              <pre id="raw"></pre>
-            </details>
-          </article>
-          <p class="privacy">
-            Only this prompt, optional context and enabled plugin descriptions go to TypeSafe. No
-            prompt history is saved.
-          </p>
-        </section>
-        <section id="library" class="view" hidden>
-          <div class="eyebrow">YOUR TOOLBOX</div>
-          <h1>Only what<br />you <em>have.</em></h1>
-          <p class="intro">
-            This is a starter catalog. Turn off anything you do not have, or add your own. The
-            extension also checks the native picker before sending.
-          </p>
-          <div id="plugins" class="plugin-grid"></div>
-          <details class="custom">
-            <summary>Add a custom plugin</summary>
-            <form id="add-plugin">
-              <input
-                id="plugin-name"
-                required
-                maxlength="60"
-                placeholder="Exact name in the @ picker"
-                aria-label="Plugin name"
-              /><input
-                id="plugin-description"
-                required
-                maxlength="1200"
-                placeholder="What this plugin does"
-                aria-label="Plugin description"
-              /><button class="primary">Add plugin</button>
             </form>
-          </details>
-        </section>
-        <section id="setup" class="view" hidden>
-          <div class="eyebrow">LOCAL FIRST</div>
-          <h1>A tiny bridge.<br />A <em>real</em> decision.</h1>
-          <div class="setup-grid">
-            <article>
-              <b>01 / START</b>
-              <h2>Keychain → Jev</h2>
+            <div class="examples">
+              <button
+                data-example="Find the latest project brief in my Google Drive and summarize it."
+              >
+                Find a document</button
+              ><button
+                data-example="Find the meeting time in my latest email and check whether my calendar is free then."
+              >
+                Email + calendar</button
+              ><button data-example="Explain why the sky is blue in one sentence.">
+                No tools needed
+              </button>
+            </div>
+            <section id="decision" class="decision" hidden aria-live="polite">
+              <div class="decision-heading">
+                <span class="small-logo">j</span><span id="decision-title">Checking tools…</span
+                ><span id="timing"></span>
+              </div>
+              <p id="decision-note"></p>
+              <div id="matches" class="matches"></div>
+              <div id="output-card" hidden>
+                <pre id="output"></pre>
+                <div class="result-actions">
+                  <button id="copy" type="button" class="quiet">Copy prompt</button
+                  ><a href="https://chatgpt.com/" target="_blank" rel="noreferrer" class="quiet"
+                    >Open ChatGPT ↗</a
+                  >
+                </div>
+                <details class="trace">
+                  <summary>Decision details</summary>
+                  <div id="scores"></div>
+                  <pre id="raw"></pre>
+                </details>
+              </div>
+            </section>
+            <p class="privacy">
+              Your prompt and added context are sent to TypeSafe when you check.
+            </p>
+          </section>
+          <section id="library" class="view settings" hidden>
+            <h1>Tools</h1>
+            <p class="subtext">
+              Enable the tools available to your LLM. Names must match the ChatGPT picker.
+            </p>
+            <div id="plugins" class="tool-list"></div>
+            <details class="custom">
+              <summary>Add a tool</summary>
+              <form id="add-plugin">
+                <label
+                  >Name<input
+                    id="plugin-name"
+                    required
+                    maxlength="60"
+                    placeholder="Name in the @ picker" /></label
+                ><label
+                  >Type<select id="plugin-kind">
+                    <option value="plugin">Plugin</option>
+                    <option value="mcp">MCP server</option>
+                    <option value="tool">Tool</option>
+                  </select></label
+                ><label
+                  >Description<textarea
+                    id="plugin-description"
+                    required
+                    maxlength="1200"
+                    placeholder="What can it do?"
+                    rows="2"
+                  ></textarea></label
+                ><button class="button">Add tool</button>
+              </form>
+            </details>
+          </section>
+          <section id="setup" class="view settings" hidden>
+            <h1>Settings</h1>
+            <section class="settings-section">
+              <h2>Browser extension</h2>
               <p>
-                Run <code>Run Jev Router.command</code>. Your API key stays in the local server,
-                never the extension.
+                Start the local server, then load the <code>extension</code> folder in Chrome’s
+                extension settings. Pair it here.
               </p>
-            </article>
-            <article>
-              <b>02 / BROWSER</b>
-              <h2>Attach before Send</h2>
+              <button id="pair" class="button">Copy pairing package</button>
+              <p id="pair-status" role="status"></p>
+              <p class="small">Pair again after restarting the server or changing your tools.</p>
+            </section>
+            <section class="settings-section">
+              <h2>ChatGPT desktop</h2>
               <p>
-                Chrome → Extensions → Developer mode → Load unpacked. Choose the
-                <code>extension</code> folder. Copy the pairing package, then paste it into the
-                extension popup.
+                Copy the checked prompt. In ChatGPT, choose the suggested tools from its @ picker
+                before sending.
               </p>
-              <button id="pair" class="primary">Copy pairing package</button
-              ><small id="pair-status"></small>
-            </article>
-            <article>
-              <b>03 / DESKTOP</b>
-              <h2>Compose, route, paste</h2>
+            </section>
+            <details class="settings-section">
+              <summary>How routing works</summary>
               <p>
-                Use this companion for native ChatGPT. Copy the routed prompt and choose each
-                suggested plugin in ChatGPT’s @ picker before sending. Browser extensions cannot run
-                inside the native app.
+                Jev checks whether the prompt needs tools and which enabled tools apply. The
+                extension adds the matching mentions. Uncertain results wait for review.
               </p>
-            </article>
-          </div>
-          <a href="/fixture" class="secondary fixture-link">Open extension adapter test lab ↗</a>
-          <p class="privacy">
-            The test lab exercises the same extension script with a local composer. It is explicitly
-            a test surface, not a ChatGPT session.
-          </p>
-        </section>
-      </main>
-      <footer>
-        <span>JEV / RELAY</span><span>Intent → Judgment → @Plugin → ChatGPT</span
-        ><span>Made with TypeSafe System One</span>
-      </footer>
+              <p>
+                Chat context is optional. The server keeps no prompt history. The API key stays on
+                your computer.
+              </p>
+              <a href="/fixture">Open adapter test</a>
+            </details>
+            <p class="small">An independent tool for ChatGPT and other LLM workflows.</p>
+          </section>
+        </main>
+      </div>
     </div>
     <script type="module" src="/app.js"></script>
   </body>

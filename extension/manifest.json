@@ -1,14 +1,23 @@
 {
   "manifest_version": 3,
-  "name": "Jev · Plugin Router",
-  "version": "1.0.0",
-  "description": "Ask Jev which installed plugins a prompt needs, then attach native @ mentions before sending.",
+  "name": "jev2mcp",
+  "version": "0.2.0",
+  "description": "Select MCP servers, plugins and tools from the prompt and context before sending to ChatGPT.",
   "permissions": ["storage"],
   "host_permissions": ["http://127.0.0.1:4328/*"],
-  "background": { "service_worker": "background.js" },
+  "background": {
+    "service_worker": "background.js"
+  },
   "content_scripts": [
-    { "matches": ["https://chatgpt.com/*"], "js": ["content.js"], "run_at": "document_idle" }
+    {
+      "matches": ["https://chatgpt.com/*"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
   ],
-  "action": { "default_title": "Jev Router", "default_popup": "options.html" },
+  "action": {
+    "default_title": "jev2mcp",
+    "default_popup": "options.html"
+  },
   "options_page": "options.html"
 }

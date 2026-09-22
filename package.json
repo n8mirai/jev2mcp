@@ -1,6 +1,6 @@
 {
-  "name": "jev-plugin-router",
-  "version": "1.0.0",
+  "name": "jev2mcp",
+  "version": "0.2.0",
   "type": "module",
   "private": true,
   "scripts": {
@@ -17,9 +17,9 @@
     "prettier": "^3.9.8"
   },
   "license": "MIT",
-  "description": "A local Jev middle step that routes ChatGPT prompts to enabled plugins.",
+  "description": "Context-aware MCP, plugin and tool routing for LLMs.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/n8mirai/jev-relay.git"
+    "url": "https://github.com/n8mirai/jev2mcp.git"
   }
 }

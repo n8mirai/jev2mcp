@@ -10,7 +10,7 @@ export function validateInput(input) {
   )
     throw new Error('Enter a prompt of 1–12,000 characters.');
   if (!Array.isArray(input.plugins) || input.plugins.length > 24)
-    throw new Error('Select up to 24 installed plugins.');
+    throw new Error('Select up to 24 available tools.');
   const seen = new Set();
   for (const p of input.plugins) {
     if (
@@ -22,7 +22,7 @@ export function validateInput(input) {
       typeof p.description !== 'string' ||
       p.description.length > 1200
     )
-      throw new Error('Invalid plugin catalog.');
+      throw new Error('Invalid tool catalog.');
     seen.add(p.id);
   }
   if (input.context != null && (typeof input.context !== 'string' || input.context.length > 6000))
@@ -110,9 +110,9 @@ export function compose(input, response, elapsedMs) {
     policy,
     reason:
       status === 'routed'
-        ? 'Installed plugins matched'
+        ? 'Available tools matched'
         : status === 'unchanged'
-          ? 'No installed plugin needed'
+          ? 'No available tool needed'
           : 'Uncertain — review before sending',
     live: true,
   };
@@ -131,11 +131,11 @@ export async function route(raw, { key = process.env.TYPESAFE_API_KEY, fetcher =
       output: input.prompt,
       selected: [],
       scores: [],
-      reason: 'No plugins enabled',
+      reason: 'No tools enabled',
       live: false,
       elapsedMs: 0,
     };
-  if (!key) throw new Error('Start Jev Router using its Keychain launcher.');
+  if (!key) throw new Error('Start jev2mcp using its Keychain launcher.');
   const start = performance.now();
   const response = await fetcher('https://api.typesafe.ai/v1/systemone', {
     method: 'POST',

@@ -12,7 +12,7 @@ chrome.runtime.onMessage.addListener((msg, sender, respond) => {
       'contextEnabled',
     ]);
     if (!settings.enabled) return { disabled: true };
-    if (!settings.token) throw new Error('Open Jev Router and pair with the local companion.');
+    if (!settings.token) throw new Error('Open jev2mcp and pair with the local companion.');
     const response = await fetch('http://127.0.0.1:4328/api/route', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'X-Jev-Token': settings.token },

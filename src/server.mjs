@@ -47,7 +47,7 @@ const server = http.createServer(async (req, res) => {
   if (url.pathname === '/api/health')
     return reply(200, {
       ok: true,
-      name: 'jev-plugin-router',
+      name: 'jev2mcp',
       keyAvailable: !!process.env.TYPESAFE_API_KEY,
     });
   if (url.pathname === '/api/session' && req.method === 'GET') {
@@ -111,7 +111,7 @@ const server = http.createServer(async (req, res) => {
 });
 server.listen(port, '127.0.0.1', () => {
   console.log(
-    `Jev Router ready at ${origin} — API credential ${process.env.TYPESAFE_API_KEY ? 'available' : 'missing'}. Prompts are not logged.`,
+    `jev2mcp ready at ${origin} — API credential ${process.env.TYPESAFE_API_KEY ? 'available' : 'missing'}. Prompts are not logged.`,
   );
   if (process.env.JEV_OPEN === '1' && process.platform === 'darwin')
     spawn('open', [origin], { stdio: 'ignore' });

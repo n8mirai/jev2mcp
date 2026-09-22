@@ -2,7 +2,7 @@ const el = (id) => document.getElementById(id);
 chrome.storage.local.get(['enabled', 'contextEnabled', 'plugins']).then((s) => {
   el('enabled').checked = !!s.enabled;
   el('context').checked = !!s.contextEnabled;
-  el('status').textContent = `${s.plugins?.length || 0} configured plugins`;
+  el('status').textContent = `${s.plugins?.length || 0} configured tools`;
 });
 el('save').onclick = async () => {
   try {
@@ -11,7 +11,7 @@ el('save').onclick = async () => {
     await chrome.storage.local.set({ token: p.token, plugins: p.plugins, enabled: true });
     el('pair').value = '';
     el('enabled').checked = true;
-    el('status').textContent = `Paired · ${p.plugins.length} enabled plugins`;
+    el('status').textContent = `Paired · ${p.plugins.length} enabled tools`;
   } catch {
     el('status').textContent = 'Copy a fresh pairing package from the companion.';
   }

@@ -2,7 +2,7 @@
 set -eu
 cd "${0:A:h}"
 export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"
-if curl -fsS http://127.0.0.1:4328/api/health 2>/dev/null | /usr/bin/grep -q 'jev-plugin-router'; then
+if curl -fsS http://127.0.0.1:4328/api/health 2>/dev/null | /usr/bin/grep -q 'jev2mcp'; then
  open http://127.0.0.1:4328
  exit 0
 fi

@@ -1,76 +1,79 @@
-# Jev Relay
+# jev2mcp
 
-**A little intelligence, right before Send.**
+A small intelligence layer that helps LLMs choose tools from context.
 
-A local-first prototype that asks TypeSafe's Jev: _does this prompt need one of my enabled ChatGPT plugins?_ If yes, it selects the relevant `@` mentions; ordinary questions stay unchanged.
+Built for people who work with MCP servers, plugins, and multiple tool sets. Jev reads the prompt, optional context, and your enabled tool descriptions. Code uses its probabilities to select tools, leave the prompt alone, or hold it for review.
 
-![Live Jev routing email and calendar together](artifacts/preview.png)
+![jev2mcp companion](artifacts/preview.png)
 
-[Watch the narrated demo](https://github.com/n8mirai/jev-relay/releases/latest) · [Design and sources](docs/design.md) · [Privacy](SECURITY.md)
+## Current implementation
 
-## What works
+- **ChatGPT browser extension:** checks a prompt before Send, selects matching entries in the native `@` picker, then resumes sending.
+- **Local companion:** inspect selections and probabilities, configure tools, and copy a prompt for ChatGPT desktop.
+- **Routing module:** one TypeSafe request for the overall decision and each enabled tool. No generated tool names or rewritten prompts.
 
-- **Live Jev routing:** typed Noul judgments, multi-plugin selection, visible probabilities, measured request latency and token usage.
-- **Chrome extension:** intercepts Enter / Send, waits for the decision, attaches through the native plugin picker, then resumes sending. Uncertainty, stale drafts and API failures hold the prompt.
-- **Desktop companion:** route a prompt, copy the result, then select its plugins in the native ChatGPT `@` picker and send.
-- **Local integration lab:** exercises the production extension content script with real Jev calls and a test composer. It does not simulate a ChatGPT response or read account data.
-
-**Release status:** experimental. Live Jev, the companion and the local integration lab are verified. Signed-in ChatGPT Chat/Work injection has **not** been verified: the development browser's managed policy blocked unpacked installation. Native desktop support is an explicit copy/paste handoff, not automatic interception. Literal pasted `@` text alone does not guarantee plugin activation.
+Experimental. Live Jev routing and the local extension fixture are verified. Installation and injection in signed-in ChatGPT Chat/Work are still unverified because the development browser blocks developer extensions. Desktop support is a manual handoff. The tool catalog is configured by you; it does not discover your account's installed tools or connect directly to MCP servers.
 
 ## Run
 
-Requires Node.js 22.13+ and a [TypeSafe API key](https://console.typesafe.ai/keys). There are **no production npm dependencies**. TypeSafe calls use your TypeSafe balance, independently of ChatGPT usage.
+Requires Node.js 22.13+ and a [TypeSafe API key](https://console.typesafe.ai/keys). No production npm dependencies.
 
 ```sh
-git clone https://github.com/n8mirai/jev-relay.git
-cd jev-relay
-# Supply TYPESAFE_API_KEY through your environment / secret manager.
+git clone https://github.com/n8mirai/jev2mcp.git
+cd jev2mcp
+# Set TYPESAFE_API_KEY through your environment or secret manager.
 npm start
 ```
 
-Open `http://127.0.0.1:4328`. On macOS, double-click **Run Jev Router.command** instead. It uses the existing TypeSafe skill Keychain helper when present, or asks for a key with hidden input for this process only.
+Open `http://127.0.0.1:4328`. On macOS, **Run jev2mcp.command** uses the TypeSafe skill's Keychain helper when available, or prompts for a key for the current process. TypeSafe usage is billed separately from ChatGPT.
 
-The starter catalog is an example, not account discovery. Under **Your plugins**, disable anything you do not have and add custom plugins using their exact picker names.
+In **Tools**, enable only tools available to you. Add MCP servers, plugins, or tools using their exact ChatGPT picker names and a short description of what they do.
 
-## Use the extension
+## Connect ChatGPT
 
-1. Start the bridge. In a browser that allows developer extensions, open `chrome://extensions`, enable **Developer mode**, and choose **Load unpacked → extension/**.
-2. In the companion, choose **Setup → Copy pairing package**.
-3. Open the Jev extension popup, paste the package, and select **Pair & enable**.
-4. Reload ChatGPT. Type a prompt and press Send. Jev holds the send while checking; the panel shows its decision.
-5. Optional: enable the last four visible chat messages as context in the popup. It is off by default.
+1. Start the local companion.
+2. In Chrome's extension settings, load `extension/` as an unpacked extension. This requires developer extensions to be allowed by your browser administrator.
+3. Choose **Settings → Copy pairing package** in the companion.
+4. Paste it into the jev2mcp extension's **Connection → Pairing package** field and select **Pair & enable**.
+5. Reload ChatGPT, type a prompt, and send it.
 
-Re-pair after restarting the bridge or changing your enabled catalog. If a native picker entry cannot be verified, resolve the visible draft manually. Use the popup toggle to disable routing. Do not weaken a managed browser policy to install this demo.
+Context from the last four visible messages is optional and off by default. Re-pair after restarting the bridge or changing your tool catalog.
 
-## Try the end-to-end lab
+For desktop, copy the companion's output and select the suggested entries in ChatGPT's `@` picker. Pasted `@` text alone does not activate a tool.
 
-Open `http://127.0.0.1:4328/fixture` and click **Document request → Send prompt**. The same extension adapter calls Jev, inserts a mention using the test picker's interaction, verifies its native node, and submits exactly once to the local transcript. Try **Plain question** and **Two plugins** as well. The page is clearly labeled as a fixture.
+## Behavior
 
-## Verification
+| Jev decision                      | Result                                        |
+| --------------------------------- | --------------------------------------------- |
+| No tools needed                   | Send the original prompt                      |
+| Clear tool matches                | Attach the matching picker entries, then send |
+| Uncertain, unavailable, or failed | Keep the draft for review                     |
+| Draft edited during the check     | Discard the result                            |
 
-19 deterministic tests cover routing, composer behavior and the loopback bridge. A [GitHub Actions template](docs/ci-example.yml) is included; copy it to `.github/workflows/test.yml` if desired. CI is not enabled in this release.
+The thresholds are experimental: ≤0.20 for no and ≥0.80 for yes. See the [routing contract](docs/design.md) for details.
+
+Prompts and optional context are sent to TypeSafe. The API key stays in the local bridge; prompts are not logged. [Data and security](SECURITY.md).
+
+## Development
 
 ```sh
 npm ci
-npm test       # deterministic tests; no API key or paid calls
-npm run eval   # eight synthetic live cases; running bridge required
+npm test       # deterministic routing, composer, and bridge tests
+npm run eval   # synthetic live cases; requires a running bridge
 ```
 
-The recorded evaluation used `jev-1.13.0`: seven cases resolved automatically as expected; one unavailable Slack request was conservatively held for review. All eight satisfied their expected behavior. This is a smoke evaluation, not a general accuracy estimate. See [actual probabilities, timing and usage](artifacts/live-evaluation.json).
+`http://127.0.0.1:4328/fixture` runs the production content script against an explicitly labeled local test composer. It is not ChatGPT.
 
-The video is a narrated walkthrough assembled from actual live UI captures. It distinguishes the companion, local integration lab and native desktop handoff. No mock output is labeled as live ChatGPT execution.
-
-## Structure
+The [recorded evaluation](artifacts/live-evaluation.json) covers eight synthetic cases. Seven resolved automatically; one unavailable Slack request was held for review. This is a smoke check, not an accuracy estimate. A [CI template](docs/ci-example.yml) is included; GitHub Actions is not enabled.
 
 ```text
-src/router.mjs         Typed questions, validation and deterministic routing
-src/server.mjs         Authenticated loopback bridge; no prompt logging
-src/catalog.mjs        Editable starter catalog
-extension/             Manifest V3 extension and native picker adapter
-public/                Companion and explicitly labeled integration fixture
-test/                  Routing contracts and composer race tests
-scripts/evaluate.mjs   Live synthetic smoke evaluation
-artifacts/             Evaluation evidence and demo media
+src/         Routing module, loopback bridge, starter catalog
+extension/   ChatGPT adapter and pairing settings
+public/      Companion and test composer
+test/        Deterministic tests
+scripts/     Live evaluation
 ```
 
-Built with [TypeSafe System One](https://docs.typesafe.ai/) and the [Noul primitive](https://docs.typesafe.ai/primitives/noul). Independent experiment; not affiliated with OpenAI or TypeSafe. MIT licensed.
+[TypeSafe System One](https://docs.typesafe.ai/) · [Noul primitive](https://docs.typesafe.ai/primitives/noul) · [MIT](LICENSE)
+
+Independent project. Not affiliated with OpenAI or TypeSafe.

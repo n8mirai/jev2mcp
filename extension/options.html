@@ -1,76 +1,77 @@
 <!doctype html>
 <html lang="en">
-  <meta charset="utf-8" /><title>Jev Router settings</title
+  <meta charset="utf-8" /><title>jev2mcp</title
   ><style>
     body {
-      width: 330px;
-      background: #14211e;
-      color: #eef2e8;
-      font: 14px system-ui;
-      padding: 20px;
+      width: 310px;
+      padding: 18px;
+      color: #222;
+      background: #fff;
+      font:
+        13px Arial,
+        sans-serif;
     }
     h1 {
-      font-size: 24px;
+      font-size: 18px;
+      font-weight: 500;
+      margin: 0 0 22px;
     }
     p {
-      color: #bbc5bc;
+      color: #777;
       line-height: 1.5;
     }
-    textarea,
-    input {
-      box-sizing: border-box;
-      width: 100%;
-      background: #21332e;
-      border: 1px solid #53645b;
-      border-radius: 8px;
-      color: white;
-      padding: 10px;
+    a {
+      color: #555;
     }
     label {
       display: block;
       margin: 16px 0;
+      line-height: 1.5;
     }
-    input[type='checkbox'] {
-      width: auto;
+    textarea {
+      box-sizing: border-box;
+      width: 100%;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 10px;
+      font: 12px monospace;
     }
-    button,
-    a {
-      display: block;
-      background: #d7fa70;
-      color: #17231c;
+    button {
+      background: #222;
+      color: #fff;
       border: 0;
-      border-radius: 9px;
-      padding: 12px;
+      border-radius: 8px;
+      padding: 10px 14px;
       cursor: pointer;
-      text-align: center;
-      text-decoration: none;
-      font-weight: 700;
-      margin: 12px 0;
+    }
+    input {
+      accent-color: #222;
     }
     small {
       display: block;
-      color: #bec9bb;
+      color: #888;
+      font-size: 11px;
+      line-height: 1.5;
     }
     #status {
-      color: #d7fa70;
+      font-size: 12px;
     }
   </style>
-  <h1>Jev → ChatGPT</h1>
-  <p>One small decision before Send.</p>
-  <a href="http://127.0.0.1:4328" target="_blank">Open desktop companion ↗</a
-  ><label
-    >Pairing package<textarea
-      id="pair"
-      rows="3"
-      placeholder="Paste from companion → Setup"
-    ></textarea></label
-  ><button id="save">Pair & enable</button
-  ><label><input id="enabled" type="checkbox" /> Route before sending</label
-  ><label><input id="context" type="checkbox" /> Include last 4 visible chat messages</label
-  ><small
-    >Prompt and enabled plugin descriptions go to TypeSafe. Context is off by default. No prompt
-    history is stored.</small
-  >
+  <h1>jev2mcp</h1>
+  <label><input id="enabled" type="checkbox" /> Check tools before sending</label
+  ><label><input id="context" type="checkbox" /> Include the last 4 chat messages</label>
+  <details>
+    <summary>Connection</summary>
+    <p><a href="http://127.0.0.1:4328" target="_blank">Open local settings ↗</a></p>
+    <label
+      >Pairing package<textarea
+        id="pair"
+        rows="3"
+        placeholder="Paste from local settings"
+      ></textarea></label
+    ><button id="save">Pair &amp; enable</button>
+  </details>
   <p id="status" role="status"></p>
+  <small>Prompts and optional context are sent to TypeSafe. No prompt history is saved.</small>
   <script src="options.js"></script>
 </html>
