@@ -45,9 +45,9 @@ const cases = [
     expected: ['pantry'],
   },
   {
-    name: 'messy pantry restock and cart',
+    name: 'indirect breakfast restock',
     prompt:
-      'Okay, this is scattered: I need breakfasts for next week, probably egg sandwiches and coffee, but do not make me buy things already in the kitchen. I also thought we were out of rice and canned tomatoes, though I may be wrong. Check the recorded pantry first, then put only the missing breakfast basics plus any genuinely low staples in a grocery cart for me to review. Do not check out.',
+      'ugh 6am shifts all week. egg sandwiches would save me but do we even have eggs? bread? i swear i saw coffee somewhere and last time i came home with rice we already had. can you sort the morning situation out and tee up whatever is actually missing so i can check it before paying? pls do not place an order.',
     expected: ['pantry', 'instacart'],
   },
   {

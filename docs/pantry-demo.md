@@ -1,17 +1,17 @@
-# Pantry + Instacart routing demo
+# Indirect Pantry + Instacart demo
 
-This follow-up to the [original demo post](https://x.com/n8mirai/status/2102479357189214645) tests whether Jev routes a less tidy request to two tools. The [29-second video](../artifacts/jev2mcp-pantry-instacart-demo.mp4) is an edited visualization of recorded API results, not a continuous ChatGPT screen capture.
+The original [demo post](https://x.com/n8mirai/status/2102479357189214645) shows Jev deciding which tools to inject before a ChatGPT prompt is sent. This follow-up should show the same live ChatGPT flow with a request that does not name either tool or ask for a cart.
 
 ## Prompt
 
-> Okay, this is scattered: I need breakfasts for next week, probably egg sandwiches and coffee, but do not make me buy things already in the kitchen. I also thought we were out of rice and canned tomatoes, though I may be wrong. Check the recorded pantry first, then put only the missing breakfast basics plus any genuinely low staples in a grocery cart for me to review. Do not check out.
+> ugh 6am shifts all week. egg sandwiches would save me but do we even have eggs? bread? i swear i saw coffee somewhere and last time i came home with rice we already had. can you sort the morning situation out and tee up whatever is actually missing so i can check it before paying? pls do not place an order.
 
-## Recorded outcome
+## Pass criteria
 
-On September 22, 2026, one live TypeSafe request returned **0.97** for needing tools, **0.98** for Pantry, and **0.96** for Instacart in **233 ms**. jev2mcp selected both. The full ten-case smoke run passed and is saved in [`artifacts/live-evaluation.json`](../artifacts/live-evaluation.json).
+1. Record the actual ChatGPT composer as this prompt is typed and sent.
+2. Show the extension's Jev overlay deciding whether tools are needed and selecting Pantry and Instacart.
+3. Show both native `@` picker entries attached to the prompt before it is sent.
+4. Show ChatGPT checking the recorded food inventory, then using Instacart to queue only missing breakfast items for review. Stop before checkout.
+5. Keep the video to the browser interaction and its overlay, with clean cuts and no presentation slides.
 
-The Pantry connector found rice, canned tomatoes, and coffee in the recorded inventory. Eggs and bread were not recorded. The underlying complete snapshot was dated August 17, 2026, with later additions and consumption updates; absence from the record does not prove absence from the kitchen. The video frames that distinction as “not recorded.”
-
-The Instacart cart was verified to contain one Publix Eggs, Large and one Publix Bakery Sourdough Round Bread. The initial cart action returned an error even though the items were added, so the cart was read again to confirm its state. No checkout occurred.
-
-This run verifies Jev's two-tool selection and the downstream inventory/cart actions. It does not verify native ChatGPT `@` picker attachment for these two plugins; the [original live demo](demo.md) covers native attachment with Google Drive.
+The previous [routing smoke test](../artifacts/live-evaluation.json) used an explicit instruction to check the recorded pantry and build a grocery cart. Its result cannot be used as proof that Jev understands this indirect prompt. The new case is in `scripts/evaluate.mjs` and needs a fresh live TypeSafe run.
