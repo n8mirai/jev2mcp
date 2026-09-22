@@ -44,6 +44,17 @@ const cases = [
     prompt: 'What ingredients do I have in my pantry?',
     expected: ['pantry'],
   },
+  {
+    name: 'messy pantry restock and cart',
+    prompt:
+      'Okay, this is scattered: I need breakfasts for next week, probably egg sandwiches and coffee, but do not make me buy things already in the kitchen. I also thought we were out of rice and canned tomatoes, though I may be wrong. Check the recorded pantry first, then put only the missing breakfast basics plus any genuinely low staples in a grocery cart for me to review. Do not check out.',
+    expected: ['pantry', 'instacart'],
+  },
+  {
+    name: 'cart without inventory lookup',
+    prompt: 'Put two cartons of oat milk in an Instacart cart for me to review.',
+    expected: ['instacart'],
+  },
 ];
 const results = [];
 for (const c of cases) {

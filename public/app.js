@@ -10,10 +10,23 @@ const escape = (s) =>
   );
 try {
   session = await fetch('/api/session').then((r) => r.json());
-  tools =
-    JSON.parse(
-      localStorage.getItem('jev2mcp-tools') || localStorage.getItem('jev-plugins') || 'null',
-    ) || session.catalog.map((p) => ({ ...p, enabled: true }));
+  const savedTools = JSON.parse(
+    localStorage.getItem('jev2mcp-tools') || localStorage.getItem('jev-plugins') || 'null',
+  );
+  tools = Array.isArray(savedTools)
+    ? [
+        ...savedTools,
+        ...session.catalog
+          .filter(
+            (p) =>
+              !savedTools.some(
+                (saved) =>
+                  saved.id === p.id || saved.mention?.toLowerCase() === p.mention.toLowerCase(),
+              ),
+          )
+          .map((p) => ({ ...p, enabled: true })),
+      ]
+    : session.catalog.map((p) => ({ ...p, enabled: true }));
   const health = await fetch('/api/health').then((r) => r.json());
   $('connection').textContent = health.keyAvailable ? 'Connected' : 'API key missing';
 } catch {
