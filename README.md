@@ -6,13 +6,15 @@ Built for people who work with MCP servers, plugins, and multiple tool sets. Jev
 
 ![jev2mcp companion](artifacts/preview.png)
 
+[Watch the 30-second live ChatGPT demo](https://github.com/n8mirai/jev2mcp/releases/download/v0.2.1/jev2mcp-live-demo.mp4).
+
 ## Current implementation
 
 - **ChatGPT browser extension:** checks a prompt before Send, selects matching entries in the native `@` picker, then resumes sending.
 - **Local companion:** inspect selections and probabilities, configure tools, and copy a prompt for ChatGPT desktop.
 - **Routing module:** one TypeSafe request for the overall decision and each enabled tool. No generated tool names or rewritten prompts.
 
-Experimental. Live Jev routing and the local extension fixture are verified. Installation and injection in signed-in ChatGPT Chat/Work are still unverified because the development browser blocks developer extensions. Desktop support is a manual handoff. The tool catalog is configured by you; it does not discover your account's installed tools or connect directly to MCP servers.
+Experimental. Verified in signed-in ChatGPT Chat: Jev selected Google Drive, the extension attached its native mention, and ChatGPT retrieved a real demo document. ChatGPT Work remains unverified. Desktop support is a manual handoff. The tool catalog is configured by you; it does not discover your account's installed tools or connect directly to MCP servers.
 
 ## Run
 
@@ -65,6 +67,8 @@ npm run eval   # synthetic live cases; requires a running bridge
 `http://127.0.0.1:4328/fixture` runs the production content script against an explicitly labeled local test composer. It is not ChatGPT.
 
 The [recorded evaluation](artifacts/live-evaluation.json) covers eight synthetic cases. Seven resolved automatically; one unavailable Slack request was held for review. This is a smoke check, not an accuracy estimate. A [CI template](docs/ci-example.yml) is included; GitHub Actions is not enabled.
+
+The [live recording notes](docs/demo.md) document the ChatGPT check and video edits. The deterministic suite has 21 tests, including the current roleless plugin picker and native mention resolution.
 
 ```text
 src/         Routing module, loopback bridge, starter catalog

@@ -5,7 +5,7 @@
   host.id = 'jev-router-host';
   const shadow = host.attachShadow({ mode: 'open' });
   shadow.innerHTML = `<style>
-:host{position:fixed;right:20px;bottom:20px;z-index:2147483646;font:13px Arial,Helvetica,sans-serif;color:#202020;color-scheme:light}
+:host{position:fixed;right:20px;bottom:104px;z-index:2147483646;font:13px Arial,Helvetica,sans-serif;color:#202020;color-scheme:light}
 section{width:284px;padding:14px 16px;border:1px solid #e3e3e3;border-radius:14px;background:#fff;box-shadow:0 4px 20px #0000000d;animation:in .18s ease}header{display:flex;justify-content:space-between;align-items:center;margin-bottom:11px}b{font-size:13px;font-weight:500}p{margin:7px 0;line-height:1.5;font-size:13px}small{font-size:11px;color:#888}button{border:0;border-radius:7px;padding:7px 10px;margin:8px 6px 0 0;background:#222;color:white;cursor:pointer;font-size:12px}.secondary{background:#f3f3f3;color:#555}details{margin-top:12px;border-top:1px solid #eee;padding-top:10px;color:#888;font-size:11px}summary{cursor:pointer}pre{white-space:pre-wrap;font-size:10px;max-height:150px;overflow:auto;color:#666}#badge{color:#888}#detail:empty{display:none}@keyframes in{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}@media(prefers-color-scheme:dark){:host{color:#eee;color-scheme:dark}section{background:#303030;border-color:#484848;box-shadow:0 4px 20px #0003}button{background:#eee;color:#222}.secondary{background:#444;color:#eee}details{border-color:#484848}pre{color:#bbb}}@media(prefers-reduced-motion:reduce){section{animation:none}}
 </style><section><header><b>jev2mcp</b><small id="badge">Ready</small></header><p id="status">Tools checked before sending.</p><small id="detail"></small><div id="actions"></div><details><summary>Details</summary><pre id="raw">No prompt checked yet.</pre></details></section>`;
   document.documentElement.append(host);
@@ -60,7 +60,12 @@ section{width:284px;padding:14px 16px;border:1px solid #e3e3e3;border-radius:14p
   };
   const hasChip = (e) => !!e.querySelector?.('[contenteditable="false"]');
   function send(e, button) {
+    if (!e.isConnected || e !== editor()) {
+      status('Draft changed. Nothing sent.', '', 'Held');
+      return;
+    }
     permit = { element: e, signature: signature(e), url: location.href };
+    if (!button?.isConnected || button.disabled) button = sendButton();
     if (button?.isConnected && !button.disabled) button.click();
     else {
       permit = null;
@@ -117,29 +122,43 @@ section{width:284px;padding:14px 16px;border:1px solid #e3e3e3;border-radius:14p
         data: '@' + plugin.mention,
       }),
     );
-    const option = await waitFor(() =>
-      [...document.querySelectorAll('[role="option"],[role="menuitem"],[cmdk-item],button')].find(
-        (el) => {
+    const nativeChip = () =>
+      [...e.querySelectorAll('[contenteditable="false"]')].find(
+        (el) =>
+          el.getAttribute('data-keyword') === plugin.name ||
+          (el.textContent || '').trim() === plugin.name,
+      );
+    const option = await waitFor(
+      () =>
+        nativeChip() ||
+        [
+          ...document.querySelectorAll(
+            '[role="option"],[role="menuitem"],[cmdk-item],button,div.__menu-item[tabindex="0"]',
+          ),
+        ].find((el) => {
           if (!visible(el) || el.closest('#jev-router-host')) return false;
+          // Current ChatGPT renders plugin rows without an ARIA menu role.
+          // A file result may also contain the provider name; never select it.
+          if (el.matches('div.__menu-item')) {
+            return (
+              !!el.querySelector('[data-testid="plugin-icon-wrapper"]') &&
+              [...el.querySelectorAll('span')].some((s) => s.textContent.trim() === plugin.name)
+            );
+          }
           const label = (el.getAttribute('aria-label') || el.innerText || '').trim();
           return label === plugin.name || label.split('\n')[0] === plugin.name;
-        },
-      ),
+        }),
     );
     if (!valid()) throw new Error('Draft changed during attachment. Nothing sent.');
     if (!option)
       throw new Error(`Choose @${plugin.mention} in ChatGPT’s picker, then press Send again.`);
     applying = true;
     try {
-      option.click();
+      if (!nativeChip()) option.click();
     } finally {
       applying = false;
     }
-    const chip = await waitFor(() =>
-      [...e.querySelectorAll('[contenteditable="false"]')].find((el) =>
-        (el.textContent || '').includes(plugin.name),
-      ),
-    );
+    const chip = await waitFor(nativeChip);
     if (!valid()) throw new Error('Draft changed during attachment. Nothing sent.');
     if (!chip)
       throw new Error(
@@ -223,8 +242,10 @@ section{width:284px;padding:14px 16px;border:1px solid #e3e3e3;border-radius:14p
       for (const p of [...result.selected].reverse()) await attach(e, p, valid);
       if (!valid()) throw new Error('Draft changed. Nothing sent.');
       status(
-        'Tools added. Sending…',
-        result.selected.map((p) => '@' + p.mention).join(' '),
+        'Tools selected.',
+        result.selected
+          .map((p) => '@' + p.mention + ' · ' + Math.round(p.probability * 100) + '%')
+          .join(' · '),
         'Routed',
       );
       send(e, button);

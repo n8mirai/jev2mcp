@@ -16,7 +16,8 @@ The companion returns literal @ suggestions for copying. A literal `@Google Driv
 - Companion in a real browser: verified.
 - Production content script, interception and native-node verification in a local test composer: verified.
 - Unit DOM tests cover races, navigation, duplicate clicks, manual mentions, IME and Shift+Enter.
-- Signed-in ChatGPT Chat/Work DOM compatibility: experimental and not verified in this release. The development browser's managed policy prevented unpacked-extension installation. Selectors and picker behavior may require updates.
+- Signed-in ChatGPT Chat: verified on September 22, 2026. Jev selected Google Drive, the adapter attached a native mention, and ChatGPT created and then retrieved a synthetic demo document. The adapter recognizes roleless plugin rows and native automatic mention resolution; same-provider file results are excluded. Selectors may require updates as ChatGPT changes.
+- ChatGPT Work: not yet verified.
 - Native ChatGPT desktop: copy/paste companion only. No global keyboard hook or native pre-send interception is installed.
 
 ## Sources read

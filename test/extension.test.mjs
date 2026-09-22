@@ -137,3 +137,57 @@ test('a SPA navigation invalidates a pending result', async () => {
   assert.equal(a.submits, 0);
   a.close();
 });
+
+const driveRoute = {
+  status: 'routed',
+  scores: [],
+  elapsedMs: 1,
+  selected: [{ id: 'drive', name: 'Google Drive', mention: 'Google Drive' }],
+};
+test('current ChatGPT picker selects the plugin, not a file from the same provider', async () => {
+  const a = await setup(driveRoute);
+  let fileClicked = false;
+  a.w.document.execCommand = () => {
+    a.editor.textContent = '@Google DriveOriginal prompt';
+    const file = a.w.document.createElement('div');
+    file.className = '__menu-item';
+    file.tabIndex = 0;
+    file.innerHTML = '<span>Private file</span><span>Google Drive</span>';
+    file.onclick = () => {
+      fileClicked = true;
+    };
+    const row = a.w.document.createElement('div');
+    row.className = '__menu-item';
+    row.tabIndex = 0;
+    row.innerHTML =
+      '<div data-testid="plugin-icon-wrapper"></div><span>Google Drive</span><span>Drive, Docs, Sheets or Slides</span>';
+    row.onclick = () => {
+      a.editor.innerHTML =
+        '<span contenteditable="false" data-inline-selection-pill data-keyword="Google Drive">Google Drive</span> Original prompt';
+      // React may replace the Send button while resolving the native mention.
+      a.button.replaceWith(a.button.cloneNode(true));
+      row.remove();
+      file.remove();
+    };
+    a.w.document.body.append(file, row);
+    return true;
+  };
+  a.button.click();
+  await settle();
+  assert.equal(fileClicked, false);
+  assert.equal(a.submits, 1);
+  assert.equal(a.editor.textContent, 'Google Drive Original prompt');
+  a.close();
+});
+test('an automatically resolved native mention is verified without another picker click', async () => {
+  const a = await setup(driveRoute);
+  a.w.document.execCommand = () => {
+    a.editor.innerHTML =
+      '<span contenteditable="false" data-keyword="Google Drive">Google Drive</span> Original prompt';
+    return true;
+  };
+  a.button.click();
+  await settle();
+  assert.equal(a.submits, 1);
+  a.close();
+});
