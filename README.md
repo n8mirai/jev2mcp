@@ -6,7 +6,7 @@ Built for people who work with MCP servers, plugins, and multiple tool sets. Jev
 
 ![jev2mcp companion](artifacts/preview.png)
 
-[Watch the live Pantry + Instacart ChatGPT demo](artifacts/pantry-instacart-live-demo.mp4). The earlier [Google Drive demo](https://github.com/n8mirai/jev2mcp/releases/download/v0.2.1/jev2mcp-live-demo.mp4) is also available.
+[Watch the Pantry + Instacart ChatGPT demo](artifacts/pantry-instacart-live-demo.mp4). The earlier [Google Drive demo](https://github.com/n8mirai/jev2mcp/releases/download/v0.2.1/jev2mcp-live-demo.mp4) is also available.
 
 [Read the Pantry + Instacart live demo protocol](docs/pantry-demo.md).
 
