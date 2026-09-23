@@ -6,7 +6,7 @@ Built for people who work with MCP servers, plugins, and multiple tool sets. Jev
 
 ![jev2mcp companion](artifacts/preview.png)
 
-[Watch the 30-second live ChatGPT demo](https://github.com/n8mirai/jev2mcp/releases/download/v0.2.1/jev2mcp-live-demo.mp4).
+[Watch the live Pantry + Instacart ChatGPT demo](artifacts/pantry-instacart-live-demo.mp4). The earlier [Google Drive demo](https://github.com/n8mirai/jev2mcp/releases/download/v0.2.1/jev2mcp-live-demo.mp4) is also available.
 
 [Read the Pantry + Instacart live demo protocol](docs/pantry-demo.md).
 
@@ -18,7 +18,7 @@ Built for people who work with MCP servers, plugins, and multiple tool sets. Jev
 
 The starter catalog includes Pantry for recorded food inventory and Instacart for building a grocery cart. A request to check what is on hand and cart only missing staples can select both. jev2mcp selects the tools; ChatGPT carries out the inventory lookup and cart action after the native mentions are attached.
 
-Experimental. Verified in signed-in ChatGPT Chat: Jev selected Google Drive, the extension attached its native mention, and ChatGPT retrieved a real demo document. ChatGPT Work remains unverified. Desktop support is a manual handoff. The tool catalog is configured by you; it does not discover your account's installed tools or connect directly to MCP servers.
+Experimental. Verified in signed-in ChatGPT Chat: Jev attached native Pantry and Instacart mentions for an indirect breakfast request, ChatGPT checked tracked inventory, and it staged only missing items in a cart without checkout. The earlier Google Drive retrieval also worked. ChatGPT Work remains unverified. Desktop support is a manual handoff. The tool catalog is configured by you; it does not discover your account's installed tools or connect directly to MCP servers.
 
 ## Run
 
