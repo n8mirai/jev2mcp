@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "description": "Author-specific demonstration; Pantry is a custom MCP, not included",
+  "tools": [
+    {
+      "id": "pantry",
+      "name": "Pantry",
+      "mention": "Pantry",
+      "description": "Read the user’s actual food inventory, including quantities and items running low. Use when the user is unsure what food is already at home, wants to avoid duplicate purchases, or needs a meal plan or restock based on current stock.",
+      "enabled": false
+    },
+    {
+      "id": "instacart",
+      "name": "Instacart",
+      "mention": "Instacart",
+      "description": "Search available groceries and create or update an Instacart shopping cart for the user to review before payment. Use when the user wants needed groceries queued or ready to check, including items missing from their pantry. Adding to a cart is not placing an order.",
+      "enabled": false
+    }
+  ]
+}

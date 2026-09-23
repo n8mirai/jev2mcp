@@ -1,6 +1,6 @@
 const editor = document.getElementById('prompt-textarea'),
   picker = document.getElementById('picker');
-const { catalog } = await fetch('/api/session').then((r) => r.json());
+const { catalog } = await fetch('/api/fixture-session').then((r) => r.json());
 let count = 0;
 function example(value) {
   editor.replaceChildren(document.createTextNode(value));

@@ -3,12 +3,16 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { JSDOM } from 'jsdom';
 const script = await readFile(new URL('../extension/content.js', import.meta.url), 'utf8');
-async function setup(reply) {
+async function setup(reply, { fastTimers = false } = {}) {
   const dom = new JSDOM(
     '<form><div id="prompt-textarea" role="textbox" contenteditable="true">Original prompt</div><button aria-label="Send prompt" type="submit">Send</button></form>',
     { url: 'https://chatgpt.com/c/test', runScripts: 'outside-only', pretendToBeVisual: true },
   );
   const w = dom.window;
+  if (fastTimers) {
+    const nativeTimeout = w.setTimeout.bind(w);
+    w.setTimeout = (fn, delay) => nativeTimeout(fn, Math.min(delay, 1));
+  }
   w.HTMLElement.prototype.getClientRects = function () {
     return [{}];
   };
@@ -21,9 +25,18 @@ async function setup(reply) {
     },
   });
   let calls = 0,
-    submits = 0;
+    submits = 0,
+    settingsListener;
+  const settings = { enabled: true };
   w.chrome = {
-    storage: { local: { get: async () => ({ enabled: true }) }, onChanged: { addListener() {} } },
+    storage: {
+      local: { get: async () => ({ ...settings }) },
+      onChanged: {
+        addListener(listener) {
+          settingsListener = listener;
+        },
+      },
+    },
     runtime: {
       sendMessage: async () => {
         calls++;
@@ -41,6 +54,16 @@ async function setup(reply) {
     w,
     editor: w.document.getElementById('prompt-textarea'),
     button: w.document.querySelector('button'),
+    changeSettings(values) {
+      const changes = Object.fromEntries(
+        Object.entries(values).map(([key, newValue]) => [
+          key,
+          { oldValue: settings[key], newValue },
+        ]),
+      );
+      Object.assign(settings, values);
+      settingsListener(changes, 'local');
+    },
     get calls() {
       return calls;
     },
@@ -189,5 +212,152 @@ test('an automatically resolved native mention is verified without another picke
   a.button.click();
   await settle();
   assert.equal(a.submits, 1);
+  a.close();
+});
+
+test('settings and catalog changes invalidate a pending judgment', async () => {
+  for (const changes of [
+    { plugins: [] },
+    { token: 'new-token' },
+    { enabled: false },
+    { contextEnabled: true },
+  ]) {
+    let resolve;
+    const a = await setup(() => new Promise((r) => (resolve = r)));
+    a.button.click();
+    a.changeSettings(changes);
+    resolve(driveRoute);
+    await settle();
+    assert.equal(a.submits, 0);
+    assert.equal(a.editor.textContent, 'Original prompt');
+    a.close();
+  }
+});
+
+test('exact picker identity can contain punctuation and differ from the display label', async () => {
+  const mention = 'R&D / Tasks (personal)';
+  const a = await setup({
+    ...driveRoute,
+    selected: [{ id: 'tasks', name: 'My work tracker', mention }],
+  });
+  let wrongRowClicked = false;
+  a.w.document.execCommand = (command, ui, value) => {
+    assert.equal(value, '@' + mention);
+    const wrong = a.w.document.createElement('button');
+    wrong.type = 'button';
+    wrong.setAttribute('role', 'option');
+    wrong.textContent = 'My work tracker';
+    wrong.onclick = () => {
+      wrongRowClicked = true;
+    };
+    const row = a.w.document.createElement('button');
+    row.type = 'button';
+    row.setAttribute('role', 'option');
+    row.textContent = mention;
+    row.onclick = () => {
+      const chip = a.w.document.createElement('span');
+      chip.setAttribute('contenteditable', 'false');
+      chip.dataset.keyword = mention;
+      chip.textContent = mention;
+      a.editor.replaceChildren(chip, a.w.document.createTextNode(' Original prompt'));
+      row.remove();
+      wrong.remove();
+    };
+    a.w.document.body.append(wrong, row);
+    return true;
+  };
+  a.button.click();
+  await settle();
+  assert.equal(wrongRowClicked, false);
+  assert.equal(a.submits, 1);
+  assert.equal(a.editor.querySelector('[contenteditable="false"]').dataset.keyword, mention);
+  a.close();
+});
+
+const twoToolRoute = {
+  ...driveRoute,
+  selected: [
+    { id: 'missing', name: 'Missing tool', mention: 'Missing' },
+    { id: 'installed', name: 'Installed tool', mention: 'Installed' },
+  ],
+};
+const held = async (a) => {
+  for (let i = 0; i < 100; i++) {
+    if (
+      a.w.document.getElementById('jev-router-host').shadowRoot.getElementById('status')
+        .textContent === 'Not sent.'
+    )
+      return;
+    await new Promise((r) => setTimeout(r, 5));
+  }
+  assert.fail('The attachment did not finish holding the draft.');
+};
+function simulatePartialAttachment(a, { userEdit = false, settingsChange = false } = {}) {
+  a.w.document.execCommand = (command, ui, value) => {
+    if (value === '@Installed') {
+      a.editor.innerHTML =
+        '<span contenteditable="false" data-keyword="Installed">Installed</span> Original prompt';
+      if (settingsChange) a.changeSettings({ plugins: [] });
+    } else if (value === '@Missing') {
+      a.editor.prepend(a.w.document.createTextNode(value));
+      if (userEdit) {
+        // A genuine user edit arrives while the native picker is being resolved.
+        a.w.setTimeout(() => {
+          a.editor.dispatchEvent(
+            new a.w.InputEvent('beforeinput', { bubbles: true, data: ' extra' }),
+          );
+          a.editor.append(a.w.document.createTextNode(' extra'));
+          a.editor.dispatchEvent(new a.w.InputEvent('input', { bubbles: true, data: ' extra' }));
+        }, 0);
+      }
+    } else {
+      a.editor.textContent = value;
+    }
+    return true;
+  };
+}
+
+test('missing second tool restores the owned draft and Retry never sends a partial attachment', async () => {
+  const a = await setup(twoToolRoute, { fastTimers: true });
+  simulatePartialAttachment(a);
+  a.button.click();
+  await held(a);
+  assert.equal(a.submits, 0);
+  assert.equal(a.editor.textContent, 'Original prompt');
+  assert.equal(a.editor.querySelector('[contenteditable="false"]'), null);
+  const shadow = a.w.document.getElementById('jev-router-host').shadowRoot;
+  [...shadow.querySelectorAll('button')].find((b) => b.textContent === 'Retry').click();
+  await held(a);
+  assert.equal(a.calls, 2);
+  assert.equal(a.submits, 0);
+  assert.equal(a.editor.textContent, 'Original prompt');
+  a.close();
+});
+
+test('partial attachment preserves user edits and cannot use the manual-chip bypass on Retry', async () => {
+  const a = await setup(twoToolRoute, { fastTimers: true });
+  simulatePartialAttachment(a, { userEdit: true });
+  a.button.click();
+  await held(a);
+  assert.equal(a.submits, 0);
+  assert.match(a.editor.textContent, / extra$/);
+  assert.ok(a.editor.querySelector('[contenteditable="false"]'));
+  const shadow = a.w.document.getElementById('jev-router-host').shadowRoot;
+  [...shadow.querySelectorAll('button')].find((b) => b.textContent === 'Retry').click();
+  await settle();
+  assert.equal(a.calls, 1);
+  assert.equal(a.submits, 0);
+  assert.match(a.editor.textContent, / extra$/);
+  assert.equal(shadow.getElementById('status').textContent, 'Review attached tools.');
+  a.close();
+});
+
+test('catalog changes during attachment restore the original draft without sending', async () => {
+  const a = await setup(twoToolRoute, { fastTimers: true });
+  simulatePartialAttachment(a, { settingsChange: true });
+  a.button.click();
+  await held(a);
+  assert.equal(a.submits, 0);
+  assert.equal(a.editor.textContent, 'Original prompt');
   a.close();
 });

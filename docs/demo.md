@@ -2,6 +2,8 @@
 
 Recorded September 22, 2026 in signed-in Chrome with the unpacked extension and a local TypeSafe bridge.
 
+Google Drive was already connected to the recording account and explicitly configured in the tool catalog. New installations start with an empty catalog; this demo does not imply access to Google Drive or to the author's files. [Configure tools available in your account](tool-catalog.md).
+
 Prompt:
 
 > Find "jev2mcp demo notes" in my Google Drive and list its three checklist items.

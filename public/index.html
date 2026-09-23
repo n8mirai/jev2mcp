@@ -33,7 +33,11 @@
           <section id="compose" class="view compose">
             <div class="intro">
               <h1>Which tools does this need?</h1>
-              <p>Select MCP servers and plugins from the prompt and context.</p>
+              <p>Choose from your connected tools using the prompt and context.</p>
+            </div>
+            <div id="onboarding" class="onboarding">
+              <p>Start with the tools you use. Add their names and what they can do.</p>
+              <button id="setup-tools" class="button" type="button">Add your tools</button>
             </div>
             <form id="prompt-form" class="composer">
               <textarea
@@ -61,19 +65,15 @@
                 </button>
               </div>
             </form>
-            <div class="examples">
+            <div id="examples" class="examples" hidden>
               <button
-                data-example="Find the latest project brief in my Google Drive and summarize it."
+                data-example="Where did we put the latest project brief? Find it in my connected files and summarize what changed."
               >
                 Find a document</button
               ><button
                 data-example="Find the meeting time in my latest email and check whether my calendar is free then."
               >
                 Email + calendar</button
-              ><button
-                data-example="Okay, this is scattered: I need breakfasts for next week, probably egg sandwiches and coffee, but do not make me buy things already in the kitchen. I also thought we were out of rice and canned tomatoes, though I may be wrong. Check the recorded pantry first, then put only the missing breakfast basics plus any genuinely low staples in a grocery cart for me to review. Do not check out."
-              >
-                Pantry restock</button
               ><button data-example="Explain why the sky is blue in one sentence.">
                 No tools needed
               </button>
@@ -107,18 +107,33 @@
           <section id="library" class="view settings" hidden>
             <h1>Tools</h1>
             <p class="subtext">
-              Enable the tools available to your LLM. Names must match the ChatGPT picker.
+              Add tools you already have connected. For the Chrome extension, the picker name must
+              match ChatGPT’s @ menu. Adding a tool here does not install or connect it.
             </p>
+            <div class="catalog-actions">
+              <button id="import-catalog" type="button" class="secondary">Import catalog</button>
+              <button id="export-catalog" type="button" class="secondary" disabled>
+                Export catalog
+              </button>
+              <input id="catalog-file" type="file" accept=".json,application/json" hidden />
+            </div>
+            <p class="small">Import replaces this list. Imported tools start disabled.</p>
+            <p id="library-notice" class="library-notice" role="status"></p>
             <div id="plugins" class="tool-list"></div>
-            <details class="custom">
-              <summary>Add a tool</summary>
+            <details id="tool-editor" class="custom">
+              <summary><span id="tool-form-title">Add a tool</span></summary>
               <form id="add-plugin">
                 <label
-                  >Name<input
+                  >Display name<input
                     id="plugin-name"
                     required
-                    maxlength="60"
-                    placeholder="Name in the @ picker" /></label
+                    maxlength="80"
+                    placeholder="My research library" /></label
+                ><label
+                  >Picker name<input
+                    id="plugin-mention"
+                    maxlength="80"
+                    placeholder="Exact name in the @ picker; defaults to display name" /></label
                 ><label
                   >Type<select id="plugin-kind">
                     <option value="plugin">Plugin</option>
@@ -130,11 +145,26 @@
                     id="plugin-description"
                     required
                     maxlength="1200"
-                    placeholder="What can it do?"
+                    placeholder="What information can it read? What actions can it perform?"
                     rows="2"
                   ></textarea></label
-                ><button class="button">Add tool</button>
+                ><label class="enable-field"
+                  ><input id="plugin-enabled" type="checkbox" /> Enable this tool — it is available
+                  to me</label
+                >
+                <div class="catalog-actions">
+                  <button id="save-tool" class="button" type="submit">Add tool</button>
+                  <button id="cancel-tool" class="quiet" type="button" hidden>Cancel edit</button>
+                </div>
               </form>
+            </details>
+            <details class="custom sample-tools">
+              <summary>Start from examples</summary>
+              <p>
+                Optional examples for email, files, and calendar. Edit them to match your setup,
+                then enable only the tools available to you.
+              </p>
+              <button id="sample-catalog" type="button" class="secondary">Add example tools</button>
             </details>
           </section>
           <section id="setup" class="view settings" hidden>
@@ -145,7 +175,8 @@
                 Start the local server, then load the <code>extension</code> folder in Chrome’s
                 extension settings. Pair it here.
               </p>
-              <button id="pair" class="button">Copy pairing package</button>
+              <p id="pair-help">Connect to the local companion before pairing.</p>
+              <button id="pair" class="button" disabled>Copy pairing package</button>
               <p id="pair-status" role="status"></p>
               <p class="small">Pair again after restarting the server or changing your tools.</p>
             </section>
