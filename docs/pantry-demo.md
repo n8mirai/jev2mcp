@@ -1,5 +1,9 @@
 # Indirect Pantry + Instacart demo
 
+This is a recording of the author's configured account. **Pantry is the author's private custom MCP**, backed by their food inventory. Its server, account connection, and inventory are not included with jev2mcp. Instacart was also connected in that account. Neither is enabled by default for new users.
+
+For your own setup, [configure the tools you have](tool-catalog.md). The optional [`examples/pantry-demo.json`](../examples/pantry-demo.json) describes this recording's two capabilities; importing it does not install or grant access to either tool. Any similarly described tools can be routing candidates, with the names and capabilities you supply.
+
 The original [demo post](https://x.com/n8mirai/status/2102479357189214645) shows Jev deciding which tools to inject before a ChatGPT prompt is sent. This follow-up shows the same live ChatGPT flow with a request that does not name either tool or ask for a cart.
 
 [Watch the 28-second motion edit of the real ChatGPT run](../artifacts/pantry-instacart-live-demo.mp4).
@@ -18,7 +22,7 @@ The original [demo post](https://x.com/n8mirai/status/2102479357189214645) shows
 
 ## Live routing result
 
-On September 22, 2026, Jev returned 0.97 for needing tools, 0.95 for Pantry, and 0.94 for Instacart in 209 ms. It selected both for this indirect prompt. All ten cases in the [live smoke evaluation](../artifacts/live-evaluation.json) passed.
+On September 22, 2026, Jev returned 0.97 for needing tools, 0.95 for Pantry, and 0.94 for Instacart in 209 ms. It selected both for this indirect prompt. The [historical smoke evaluation](../artifacts/live-evaluation.json) records the synthetic cases used with that catalog. These results do not measure routing accuracy for other users' tools.
 
 ## Recorded ChatGPT run
 

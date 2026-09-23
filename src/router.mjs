@@ -1,4 +1,5 @@
 import { createHash } from 'node:crypto';
+import { validateCatalog } from '../extension/catalog.js';
 export const policy = { yes: 0.8, no: 0.2, version: '1' };
 const probability = (v) => typeof v === 'number' && Number.isFinite(v) && v >= 0 && v <= 1;
 export function validateInput(input) {
@@ -9,28 +10,15 @@ export function validateInput(input) {
     input.prompt.length > 12000
   )
     throw new Error('Enter a prompt of 1–12,000 characters.');
-  if (!Array.isArray(input.plugins) || input.plugins.length > 24)
-    throw new Error('Select up to 24 available tools.');
-  const seen = new Set();
-  for (const p of input.plugins) {
-    if (
-      !p ||
-      !/^[a-z0-9-]{1,50}$/.test(p.id) ||
-      seen.has(p.id) ||
-      !/^[\p{L}\p{N} ._+-]{1,60}$/u.test(p.name) ||
-      !/^[\p{L}\p{N} ._+-]{1,60}$/u.test(p.mention) ||
-      typeof p.description !== 'string' ||
-      p.description.length > 1200
-    )
-      throw new Error('Invalid tool catalog.');
-    seen.add(p.id);
-  }
+  const plugins = validateCatalog(input.plugins)
+    .filter((tool) => tool.enabled !== false)
+    .map(({ enabled, ...tool }) => tool);
   if (input.context != null && (typeof input.context !== 'string' || input.context.length > 6000))
     throw new Error('Context must be text up to 6,000 characters.');
   return {
     prompt: input.prompt,
     context: input.context || '',
-    plugins: input.plugins,
+    plugins,
     surface: String(input.surface || 'companion').slice(0, 40),
   };
 }
@@ -135,7 +123,7 @@ export async function route(raw, { key = process.env.TYPESAFE_API_KEY, fetcher =
       live: false,
       elapsedMs: 0,
     };
-  if (!key) throw new Error('Start jev2mcp using its Keychain launcher.');
+  if (!key) throw new Error('Set TYPESAFE_API_KEY in the server environment, then restart jev2mcp.');
   const start = performance.now();
   const response = await fetcher('https://api.typesafe.ai/v1/systemone', {
     method: 'POST',

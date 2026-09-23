@@ -40,6 +40,10 @@ button {
 button:hover {
   background: var(--hover);
 }
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
 button:focus-visible,
 a:focus-visible,
 summary:focus-visible {
@@ -285,6 +289,25 @@ details[open] > summary:before {
   margin: 20px 0;
   flex-wrap: wrap;
 }
+.onboarding {
+  margin: 0 0 22px;
+  padding: 18px 20px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+.onboarding p {
+  margin: 0;
+  color: #666;
+  font-size: 13px;
+  line-height: 1.6;
+}
+.onboarding button {
+  flex-shrink: 0;
+}
 .examples button {
   background: #fff;
   border: 1px solid var(--line);
@@ -421,6 +444,7 @@ details[open] > summary:before {
   display: flex;
   gap: 10px;
   align-items: center;
+  flex-wrap: wrap;
 }
 .kind {
   font-size: 10px;
@@ -435,6 +459,43 @@ details[open] > summary:before {
   line-height: 1.55;
   color: var(--muted);
   margin: 6px 0 0;
+  overflow-wrap: anywhere;
+}
+.tool-row .picker-name {
+  color: #555;
+}
+.tool-actions {
+  display: flex;
+  gap: 4px;
+  margin: 7px 0 -7px -10px;
+}
+.catalog-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.secondary {
+  background: #fff;
+  color: #444;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 9px 13px;
+  font-size: 12px;
+}
+.library-notice:empty {
+  display: none;
+}
+.settings .library-notice {
+  color: #444;
+  border-left: 2px solid #ccc;
+  padding: 8px 12px;
+}
+.empty-library {
+  padding: 25px 0 9px;
+}
+.empty-library p {
+  max-width: 450px;
 }
 .tool-row input {
   accent-color: #222;
@@ -456,6 +517,19 @@ details[open] > summary:before {
   color: var(--muted);
   display: grid;
   gap: 7px;
+}
+.custom .enable-field {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+.enable-field input {
+  width: 16px;
+  height: 16px;
+  accent-color: #222;
+}
+.sample-tools {
+  border-top: 1px solid var(--line);
 }
 input,
 select,
@@ -537,6 +611,10 @@ h2 {
   }
 }
 @media (max-width: 760px) {
+  .onboarding {
+    flex-direction: column;
+    align-items: flex-start;
+  }
   .app {
     grid-template-columns: 1fr;
   }

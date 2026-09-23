@@ -16,20 +16,25 @@ section{width:284px;padding:14px 16px;border:1px solid #e3e3e3;border-radius:14p
     enabled = fixture,
     contextEnabled = false,
     userEdits = 0,
-    applying = false;
+    applying = false,
+    settingsRevision = 0,
+    failedAttachment = null;
   if (!fixture) {
     chrome.storage.local.get(['enabled', 'contextEnabled']).then((s) => {
       enabled = !!s.enabled;
       contextEnabled = !!s.contextEnabled;
       host.hidden = !enabled;
     });
-    chrome.storage.onChanged.addListener(() =>
-      chrome.storage.local.get(['enabled', 'contextEnabled']).then((s) => {
-        enabled = !!s.enabled;
-        contextEnabled = !!s.contextEnabled;
-        host.hidden = !enabled;
-      }),
-    );
+    chrome.storage.onChanged.addListener((changes, area) => {
+      if (area && area !== 'local') return;
+      if (!['enabled', 'contextEnabled', 'plugins', 'token'].some((key) => key in changes)) return;
+      settingsRevision++;
+      revision++;
+      permit = null;
+      if ('enabled' in changes) enabled = !!changes.enabled.newValue;
+      if ('contextEnabled' in changes) contextEnabled = !!changes.contextEnabled.newValue;
+      host.hidden = !enabled;
+    });
   }
   const visible = (el) => !!el?.getClientRects().length;
   const editor = () =>
@@ -74,7 +79,7 @@ section{width:284px;padding:14px 16px;border:1px solid #e3e3e3;border-radius:14p
   }
   async function evaluate(prompt, context) {
     if (!fixture) return chrome.runtime.sendMessage({ type: 'jev-route', prompt, context });
-    const session = await fetch('/api/session').then((r) => r.json());
+    const session = await fetch('/api/fixture-session').then((r) => r.json());
     const r = await fetch('/api/route', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'X-Jev-Token': session.token },
@@ -104,10 +109,42 @@ section{width:284px;padding:14px 16px;border:1px solid #e3e3e3;border-radius:14p
     s.removeAllRanges();
     s.addRange(range);
   }
+  function restoreDraft(e, original) {
+    // Go through the editor's input path so ChatGPT updates its own draft state.
+    // Call only while the user has not edited the draft we were attaching to.
+    applying = true;
+    try {
+      e.focus();
+      if (e.tagName === 'TEXTAREA') e.value = original;
+      else {
+        const selection = getSelection(),
+          range = document.createRange();
+        range.selectNodeContents(e);
+        selection.removeAllRanges();
+        selection.addRange(range);
+        document.execCommand('insertText', false, original);
+      }
+      e.dispatchEvent(
+        new InputEvent('input', { bubbles: true, inputType: 'insertText', data: original }),
+      );
+      return text(e) === original && !hasChip(e);
+    } catch {
+      return false;
+    } finally {
+      applying = false;
+    }
+  }
   async function attach(e, plugin, valid) {
     if (!valid()) throw new Error('Draft changed during attachment. Nothing sent.');
     if (e.tagName === 'TEXTAREA')
       throw new Error('This composer has no native tool picker. Select the tool manually.');
+    const nativeChip = () =>
+      [...e.querySelectorAll('[contenteditable="false"]')].find(
+        (el) =>
+          el.getAttribute('data-keyword') === plugin.mention ||
+          (el.textContent || '').trim() === plugin.mention,
+      );
+    if (nativeChip()) return nativeChip();
     atStart(e);
     applying = true;
     try {
@@ -122,12 +159,6 @@ section{width:284px;padding:14px 16px;border:1px solid #e3e3e3;border-radius:14p
         data: '@' + plugin.mention,
       }),
     );
-    const nativeChip = () =>
-      [...e.querySelectorAll('[contenteditable="false"]')].find(
-        (el) =>
-          el.getAttribute('data-keyword') === plugin.name ||
-          (el.textContent || '').trim() === plugin.name,
-      );
     const option = await waitFor(
       () =>
         nativeChip() ||
@@ -142,11 +173,11 @@ section{width:284px;padding:14px 16px;border:1px solid #e3e3e3;border-radius:14p
           if (el.matches('div.__menu-item')) {
             return (
               !!el.querySelector('[data-testid="plugin-icon-wrapper"]') &&
-              [...el.querySelectorAll('span')].some((s) => s.textContent.trim() === plugin.name)
+              [...el.querySelectorAll('span')].some((s) => s.textContent.trim() === plugin.mention)
             );
           }
           const label = (el.getAttribute('aria-label') || el.innerText || '').trim();
-          return label === plugin.name || label.split('\n')[0] === plugin.name;
+          return label === plugin.mention || label.split('\n')[0] === plugin.mention;
         }),
     );
     if (!valid()) throw new Error('Draft changed during attachment. Nothing sent.');
@@ -177,15 +208,32 @@ section{width:284px;padding:14px 16px;border:1px solid #e3e3e3;border-radius:14p
       permit.url === location.href
     )
       return;
-    if (hasChip(e) && !busy) return;
+    if (
+      failedAttachment &&
+      (failedAttachment.element !== e || failedAttachment.url !== location.href || !hasChip(e))
+    )
+      failedAttachment = null;
+    if (hasChip(e) && !busy && !failedAttachment) return;
     event.preventDefault();
     event.stopImmediatePropagation();
     if (busy) return;
+    if (failedAttachment) {
+      status(
+        'Review attached tools.',
+        'A previous attachment stopped. Check the draft before sending.',
+        'Not sent',
+      );
+      $('actions').replaceChildren();
+      action('Send as shown', () => send(e, button), true);
+      return;
+    }
     const original = text(e),
       before = signature(e),
       url = location.href,
       version = ++revision,
-      editVersion = userEdits;
+      editVersion = userEdits,
+      settingsVersion = settingsRevision;
+    let attachmentStarted = false;
     busy = true;
     $('actions').replaceChildren();
     status('Checking tools…', '', 'Jev');
@@ -238,7 +286,13 @@ section{width:284px;padding:14px 16px;border:1px solid #e3e3e3;border-radius:14p
         `${result.elapsedMs} ms · Jev`,
         'Routing',
       );
-      const valid = () => e.isConnected && location.href === url && userEdits === editVersion;
+      const valid = () =>
+        enabled &&
+        e.isConnected &&
+        location.href === url &&
+        userEdits === editVersion &&
+        settingsRevision === settingsVersion;
+      attachmentStarted = true;
       for (const p of [...result.selected].reverse()) await attach(e, p, valid);
       if (!valid()) throw new Error('Draft changed. Nothing sent.');
       status(
@@ -250,6 +304,17 @@ section{width:284px;padding:14px 16px;border:1px solid #e3e3e3;border-radius:14p
       );
       send(e, button);
     } catch (error) {
+      if (attachmentStarted) {
+        failedAttachment = { element: e, url };
+        if (
+          e.isConnected &&
+          e === editor() &&
+          location.href === url &&
+          userEdits === editVersion &&
+          restoreDraft(e, original)
+        )
+          failedAttachment = null;
+      }
       status('Not sent.', error.message, 'Review');
       action(
         'Retry',

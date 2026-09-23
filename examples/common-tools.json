@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "description": "Sample metadata only. Enable a tool only after connecting it in your own ChatGPT account.",
+  "tools": [
+    {
+      "id": "gmail",
+      "name": "Gmail",
+      "mention": "Gmail",
+      "description": "Find and read the user’s email and threads, search inbox and draft email. Not general writing or explaining email.",
+      "enabled": false
+    },
+    {
+      "id": "google-drive",
+      "name": "Google Drive",
+      "mention": "Google Drive",
+      "description": "Find, read, create and edit connected Google Drive files, Google Docs, Sheets and Slides.",
+      "enabled": false
+    },
+    {
+      "id": "google-calendar",
+      "name": "Google Calendar",
+      "mention": "Google Calendar",
+      "description": "Read actual calendar events and availability, create or change calendar events. Not general scheduling advice.",
+      "enabled": false
+    }
+  ]
+}
